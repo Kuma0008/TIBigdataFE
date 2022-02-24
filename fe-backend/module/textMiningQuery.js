@@ -5,11 +5,16 @@ const router = express.Router();
 
 router.post("/uploadDict", uploadDict);
 router.post("/getPreprocessedData",getPreprocessedData);
+router.post("/uploadChart", uploadChart);
+
+//확인...
+//router.post("/getChartNum",getChartNum);
+router.post("/getCharts", getCharts);
 
 const usersDict = require("../models/usersDict");
 const preprocessing = require("../models/preprocessing");
-
-
+const myAnalysis = require("../models/myAnalysis");
+const { resourceLimits } = require("worker_threads");
 
 async function uploadDict(req, res) {
     let userEmail = req.body.userEmail;
@@ -71,5 +76,72 @@ async function uploadDict(req, res) {
           .json(new Res(false, "successfully saved doc HashKeys", null));
       });
   }
+
+  async function uploadChart(req, res) {
+    if(req.body.userEmail == null  || req.body.chartImg == null) 
+    return res.status(400).json(
+      new Res(false, "Request body does not exist",null)
+    );
   
+    // console.log('req',req);
+    // let doc = {
+    //   'userEmail': req.body.userEmail,
+    //   'keyword': req.body.keyword,
+    //   'savedDate': req.body.savedDate,
+    //   'analysisDate': req.body.savedDate,
+    //   'chartImg': req.body.chartImg,
+    //   'activity': req.body.activity,
+    //   'jsonDocId': req.body.jsonDocId,
+    // };
+    let doc=req.body;
+
+    myAnalysis.findOneAndUpdate(
+      { $and: [{ userEmail: req.body.userEmail },{ analysisDate: req.body.analysisDate},]},
+        {"$set":doc},
+        { upsert: true, returnNewDocument: true }
+      ).then((result)=>{
+          console.log("successfully uploaded");
+          return res
+            .status(200)
+            .json(
+              new Res(true, "successfully uploaded",null)
+            );
+      }).catch((err) => {
+        console.log(err);
+        return res
+          .status(400)
+          .json(
+            new Res(false, "Upload to mongo DB Failed",null)
+          );;
+      });
+  }
+
+async function getCharts(req, res) {
+  myAnalysis.find(
+    { $and : [{ userEmail : req.body.userEmail, keyword : req.body.keyword }]})
+    .then((result) => {
+    if(result){
+      console.log("successfully loaded");
+      return res
+        .status(200)
+        .json(
+          new Res(true, "successfully loaded", result)
+        );
+    }else{
+      console.log("no saved chart");
+      return res 
+        .status(400)
+        .json(
+          new Res(false, "no saved chart",null)
+        );
+    }
+  }).catch((err) => {
+    console.log(err);
+    return res
+      .status(400)
+      .json(
+        new Res(false, "loading failed", null)
+      )
+  });
+}
 module.exports = router;
