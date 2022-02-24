@@ -1,3 +1,45 @@
 <!-- TODO -->
+<form *ngIf="!isSavedKeywordsEmpty" [formGroup]="form" novalidate>
+    <section *ngIf="isSavedKeywordsLoaded" class="keyword-group">
+      <div *ngFor="let key of savedKeywords; index as idx">
+        <button (click)="currentKeywordAndDate(key.keyword,key.savedDate)">{{ key.keyword }} {{ key.savedDate | date:'YYYY-M-d HH:m:s' }}</button>
+      </div>
+    </section>
+</form>
 <div class="outline">
+  <div *ngIf="!isSavedChartsEmpty">
+    <section *ngIf="isSavedChartsLoaded" class="thumbnail">
+      <div *ngFor = "let chart of charts; index as idx">
+        <button (click)="showDetail(chart)">
+          <img [src]="chart.chartImg">
+          <div>
+              분석 유형: {{ chart.activity }}<br>
+              분석한 ngram 수: 10<br>  
+              분석한 단어 수: 100 <br>
+              연결 강도: 75%<br>
+              분석 날짜: 2022-02-22<br>
+              <!--분석 날짜: {{ chart.savedDate }}<br>-->
+            
+          </div>
+        </button>
+      </div>
+    </section>
+  </div>  
 </div>
+
+<!--
+<div class="outline">
+  <form *ngIf="!isSavedChartsEmpty" [formGroup]="detail" novalidate>
+    <section *ngIf="isSavedChartsLoaded" class="thumbnail">
+      <div *ngFor = "let chart of charts">
+        <img [src]="chart.chartImg">
+        <div>
+            유형: {{ chart.activity }}<br>  
+            분석날짜: {{ chart.analysisDate }}<br>
+            저장날짜: {{ chart.savedDate }}<br>
+        </div>
+      </div>
+    </section>
+  </form>  
+</div>
+-->
