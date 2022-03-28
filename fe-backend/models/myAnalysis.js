@@ -7,7 +7,10 @@ const chartSchema = new Schema({
   analysisDate: Date,
   chartImg: String,
   activity: String,
-  jsonDocId: Number,
+  option1: String,
+  option2: String,
+  option3: String,
+  //jsonDocId: Number,
 },{collection: 'myAnalysis'});
 
 const conn = require("../connection/textMiningConn");
