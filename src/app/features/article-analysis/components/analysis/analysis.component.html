@@ -36,7 +36,7 @@
       />
       </div>
       <div class="pop-body" id="kmeans">
-        군집개수: <input type="number" value="10" min='1' max='500' id='kmeans_option1'>
+        군집개수: <input type="number" value="5" min='1' max='500' id='kmeans_option1'>
         
         <button (click)="runAnalysis('kmeans')">분석 실행</button>
       </div>
@@ -51,7 +51,7 @@
     <div class="pop-body" id="network">
       분석할 단어수: <input type="number" value="100" min='1' max='500' id='network_option1'>
       <br>
-      연결 강도(%) <input type="number" value="10" min='1' max='100' id='network_option2'>
+      연결 강도(%) <input type="number" value="75" min='1' max='100' id='network_option2'>
       <button (click)="runAnalysis('network')">분석 실행</button>
     </div>
   </div>
@@ -75,9 +75,9 @@
       />
     </div>
     <div class="pop-body" id="ngrams">
-      분석할 ngram 개수: <input type="number" value="10" min='1' max='500' id='ngrams_option1'>
+      분석할 ngram 개수: <input type="number" value="3" min='1' max='500' id='ngrams_option1'>
       <br>
-      분석할 단어수: <input type="number" value="3" min='1' max='500' id='ngrams_option2'>
+      분석할 단어수: <input type="number" value="10" min='1' max='500' id='ngrams_option2'>
       <br>
       연결강도: <input type="number" value="100" min='1' max='500' id='ngrams_option3'>
        
@@ -86,19 +86,31 @@
   </div>
 
   <div class="pop-block">
-    <div class="pop-head" id="hcluster-head" (click)="showPop('hcluster')">유의어분석
+    <div class="pop-head" id="word2vec-head" (click)="showPop('word2vec')">유의어분석
       <img class="tooltip"
         src="../../../../assets/icons/help-gray.png"
       />
+    </div>
+
+    <div class="pop-body" id="word2vec">
+      분석 단어 수: <input type="number" value="10" min='1' max='500' id='word2vec_option1'>
+      
+      <button (click)="runAnalysis('word2vec')">분석 실행</button>
     </div>
   </div>
 
   
   <div class="pop-block">
-    <div class="pop-head">토픽 모델링
+    <div class="pop-head" id="topicLDA-head" (click)="showPop('topicLDA')">토픽 모델링
       <img class="tooltip"
         src="../../../../assets/icons/help-gray.png"
       />
+    </div>
+
+    <div class="pop-body" id="topicLDA">
+      토픽 수: <input type="number" value="10" min='1' max='500' id='topicLDA_option1'>
+      
+      <button (click)="runAnalysis('topicLDA')">분석 실행</button>
     </div>
   </div>
   </div>  
@@ -130,16 +142,18 @@
       </tbody>
     </table> -->
   <!-- </div> -->
+  <figure id="wordcloud"></figure>
   
   <figure id="bar"></figure>
-  <figure id="wordcloud"></figure>
   <figure id="network"></figure>
   <figure id="scatter"></figure>
-  
-  <figure id="ngrams"></figure>
-  
   <figure id="tree"></figure>
-  </section>
+  <figure id="ldavis"></figure>
+
+  <button (click)="saveSvg()" *ngIf="isDataAnalysised">분석함 저장</button>
+  <button (click)="downloadPng()" *ngIf="isDataAnalysised">차트 이미지 다운로드</button>
+  
+</section>
   
   </section>
 </div>
