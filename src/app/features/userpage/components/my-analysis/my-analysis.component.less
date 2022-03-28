@@ -1,23 +1,36 @@
-*:focus {
-    outline: none;
+* {
+    font-size: 1.5rem;
 }
 
-.bundle {
-    border       : 1px solid #c2c2c2;
-    border-radius: 50px;
-    height       : 480px;
-    width        : 900px;
-    padding-left : 70px;
-    padding-top  : 30px;
+ul,
+li {
+    margin : 0;
+    padding: 0;
+}
+
+ul>li {
+    display    : flex;
+    align-items: baseline;
 }
 
 .upside {
-    display       : flex;
-    flex-direction: row;
+    display        : flex;
+    justify-content: space-between;
+    align-items    : center;
 }
 
-.upside2 {
-    margin-right: 490px;
+.upside3{
+    display: flex;
+}
+
+.upside2>button {
+  margin-right    : 10px;
+  background-color: #0FBAFF;
+  color           : white;
+  border          : none;
+  border-radius   : 2rem;
+  width           : 5em;
+  height          : 2em;
 }
 
 .upside3>button {
@@ -25,49 +38,13 @@
     background-color: rgb(97, 97, 97);
     color           : white;
     border          : none;
-    border-radius   : 40px;
-    width           : 100px;
-    height          : 35px;
+    border-radius   : 2rem;
+    width           : 5em;
+    height          : 2em;
 }
 
-.where {
-    display       : flex;
-    flex-direction: row;
-    padding-left  : 40px;
-}
-
-.folder-menu {
-    margin-left: 490px;
-}
-
-.button1 {
-    margin-right       : 10px;
-    background-color   : #0FBAFF;
-    color              : white;
-    border             : none;
-    border-radius      : 40px;
-    width              : 110px;
-    height             : 35px;
-    background-image   : url('/assets/icons/36_새폴더생성_흰.png');
-    background-repeat  : no-repeat;
-    background-position: 12% 40%;
-    background-size    : 20px;
-    padding            : 0px 0px 0px 20px;
-}
-
-.button2 {
-    margin-right       : 10px;
-    background-color   : #0FBAFF;
-    color              : white;
-    border             : none;
-    border-radius      : 40px;
-    width              : 110px;
-    height             : 35px;
-    background-image   : url('/assets/icons/37_폴더편집_흰.png');
-    background-repeat  : no-repeat;
-    background-position: 12% 40%;
-    background-size    : 20px;
-    padding            : 0px 0px 0px 20px;
+input[type="checkbox"] {
+    margin-right: 10px;
 }
 
 .folders {
@@ -78,13 +55,166 @@
     margin-right: 30px;
 }
 
-.checkbox {
-    margin-right: 10px;
+.page-numbers {
+    display        : flex;
+    align-items    : center;
+    justify-content: center;
 }
+
+.page-numbers>button {
+    font-size: 1.2rem;
+}
+
 
 .outline {
   border       : 1px solid #606060;
   border-radius: 50px;
   width        : 100%;
   padding      : 40px 10%;
+}
+
+.keyword-group{
+  display        : flex;
+  align-items    : center;
+  white-space : nowrap;
+  overflow-x : scroll;
+  width : 100%; //1024
+  //margin-left : 7vw;//1024
+  border : 1px solid #606060;
+  border-radius: 20px;
+  padding-top : 15px;
+  padding-left : 10px;
+  padding-bottom: 20px;
+  margin-top : 10.5px;
+  margin-bottom : 20px;
+}
+
+/* .keyword-group>div>button:focus{
+  color : black;
+} */
+
+.scroll{
+  border : none;
+  font-size : 17px;
+  margin-left : 2px;
+  margin-right: 9px;
+  list-style-type: none;
+  color : #7A7A7A;
+  border-bottom: 2px solid #52b9ff;
+  border-radius: 0px !important;
+}
+
+.keyword-group>div>button{
+  border : none;
+  font-size : 17px;
+  margin-left : 2px;
+  margin-right: 9px;
+  list-style-type: none;
+  color : #7A7A7A;
+  border-bottom: 2px solid #0FBAFF;
+  border-radius: 0px !important;
+}
+
+.folder-menu {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.folder{
+  background-image: url("../../../../../assets/icons/folder-add-new.png");
+  margin-right: 10px;
+  background-color: #52b9ff;
+  color: white;
+  border: none;
+  border-radius: 40px;
+  width: 7.5em;
+  height: 2em;
+  background-repeat: no-repeat;
+  background-position: left 0.9em center;
+  background-size: 1.2em;
+  padding: 0px 0px 0px 1.5em;
+  font-size: 1.5rem;
+}
+
+.thumbnail{
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-gap: 10px;
+  grid-auto-rows: minmax(340px, auto);
+  //height : minmax(auto, 800px);
+  max-height : 700px;
+  overflow-y : auto;
+}
+
+.thumbnail>div>button{
+  border-radius: 10px;
+  width: 300px;
+  height: 300px;
+  justify-content: space-between;
+}
+
+.thumbnail>div>button:hover{
+  border-color: #52b9ff;
+  border-width: 3px;
+}
+
+.thumbnail>div>button>img{
+  width: 91.68%;
+  height: 63.286%;
+  padding-top: 4.665%;
+}
+
+.thumbnail>div>button>div{
+ /*  text-align: left;
+  width: 100%;
+  height: 40%;
+  font-size : 15px; */
+  font-family: Noto Sans KR;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 20px;
+  letter-spacing: 0em;
+  text-align: left;
+  width: 100%;
+  height: 40%;
+  padding-left: 8%;
+  padding-bottom : 4.665%;
+  padding-top : 2%;
+} 
+.thumbnail>div>button>div>span{
+  /*  text-align: left;
+   width: 100%;
+   height: 40%;
+   font-size : 15px; */
+   font-family: Noto Sans KR;
+   font-size: 14px;
+   font-style: normal;
+   font-weight: 400;
+   line-height: 20px;
+   letter-spacing: 0em;
+   text-align: left;
+   width: 100%;
+   height: 40%;
+ } 
+
+.docList{
+  border       : 1px solid #606060;
+  border-radius: 50px;
+  width        : 100%;  
+  text-align: center;
+}
+@media all and (max-width: 768px){
+  .upside3>button{
+    font-size : 13px;
+  }
+
+  * {
+    font-size: 1.4rem;
+  }
+
+  .upside2>label{
+    padding-top : 18px;
+    margin-bottom: 0;
+  }
 }

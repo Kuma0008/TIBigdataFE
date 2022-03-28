@@ -1,45 +1,64 @@
 <!-- TODO -->
 <form *ngIf="!isSavedKeywordsEmpty" [formGroup]="form" novalidate>
-    <section *ngIf="isSavedKeywordsLoaded" class="keyword-group">
-      <div *ngFor="let key of savedKeywords; index as idx">
-        <button (click)="currentKeywordAndDate(key.keyword,key.savedDate)">{{ key.keyword }} {{ key.savedDate | date:'YYYY-M-d HH:m:s' }}</button>
-      </div>
-    </section>
+  <section *ngIf="isSavedKeywordsLoaded" class="keyword-group">
+    <div *ngFor="let key of savedKeywords; index as idx">
+      <button id="select" (click)="currentKeywordAndDate(key.keyword,key.savedDate)">
+        {{ key.keyword }} {{ key.savedDate | date:'YYYY-M-d H:m:s' }}
+      </button>
+    </div>
+  </section>
 </form>
-<div class="outline">
-  <div *ngIf="!isSavedChartsEmpty">
-    <section *ngIf="isSavedChartsLoaded" class="thumbnail">
-      <div *ngFor = "let chart of charts; index as idx">
-        <button (click)="showDetail(chart)">
-          <img [src]="chart.chartImg">
-          <div>
-              분석 유형: {{ chart.activity }}<br>
-              분석한 ngram 수: 10<br>  
-              분석한 단어 수: 100 <br>
-              연결 강도: 75%<br>
-              분석 날짜: 2022-02-22<br>
-              <!--분석 날짜: {{ chart.savedDate }}<br>-->
-            
-          </div>
-        </button>
-      </div>
-    </section>
-  </div>  
-</div>
 
-<!--
 <div class="outline">
-  <form *ngIf="!isSavedChartsEmpty" [formGroup]="detail" novalidate>
-    <section *ngIf="isSavedChartsLoaded" class="thumbnail">
-      <div *ngFor = "let chart of charts">
-        <img [src]="chart.chartImg">
-        <div>
-            유형: {{ chart.activity }}<br>  
-            분석날짜: {{ chart.analysisDate }}<br>
-            저장날짜: {{ chart.savedDate }}<br>
-        </div>
-      </div>
-    </section>
-  </form>  
+<form *ngIf="!isSavedChartsEmpty" [formGroup]="form" novalidate>
+<div class="upside">
+  <div class="upside2">
+    <label>
+      <input
+        class="chart-checkbox toggle-all"
+        type="checkbox"
+        (change)="onCheckboxChange($event)"
+        value="toggleAll"
+      />전체선택
+    </label>
+  </div>
+  <div class="upside3">
+      <button (click)="deleteSelectedCharts()">선택삭제</button>
+      <button (click)="deleteAllCharts()">전체삭제</button>
+  </div>
 </div>
--->
+<br>
+
+<section *ngIf="isSavedChartsLoaded" class="thumbnail">
+  <div *ngFor="let chart of charts; index as idx" >
+    <input
+      class="chart-checkbox"
+      type="checkbox"
+      [(checked)]="chart.isSelected"
+      name="selectChart"
+      [value]="chart['analysisDate']"
+      (change)="onCheckboxChange($event)"
+    />      
+    <button (click)="openModal(chart)">
+      <img [src]="chart.chartImg">
+      <div>
+        분석 유형: {{ activityInfo(chart) }}<br> 
+        <span *ngIf="option1">{{ option1Info(chart) }}<br></span>
+        <span *ngIf="option2">{{ option2Info(chart) }}<br></span>
+        <span *ngIf="option3">{{ option3Info(chart) }}<br></span>
+        분석 날짜: {{ chart.analysisDate | date:'YYYY-M-d HH:mm:ss'}}
+      </div>
+    </button>
+  </div>
+</section>
+</form>
+
+<jw-modal id="result" >
+  <button (click)="closeModal('result')">Close</button><br>
+  <figure id="table"></figure>
+  <figure id="bar"></figure>
+  <figure id="scatter"></figure>
+  <figure id="network"></figure>
+  <figure id="tree"></figure>
+  <button (click)="downloadPng()">차트 이미지 다운로드</button>
+</jw-modal>
