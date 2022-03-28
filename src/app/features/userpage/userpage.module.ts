@@ -9,7 +9,7 @@ import { UserpageRootComponent } from './components/userpage-root/userpage-root.
 import { UserpageSidebarComponent } from './components/userpage-sidebar/userpage-sidebar.component';
 import { UserpageHeaderComponent } from './components/userpage-header/userpage-header.component';
 import { ReactiveFormsModule } from "@angular/forms";
-import { MyAnalysisPipe } from "./components/my-analysis/my-analysis.pipe";
+import { ModalComponent } from "./components/my-analysis/modal/showDetail.component";
 
 @NgModule({
   declarations: [
@@ -20,7 +20,7 @@ import { MyAnalysisPipe } from "./components/my-analysis/my-analysis.pipe";
     SecessionComponent,
     UserpageSidebarComponent,
     UserpageHeaderComponent,
-    MyAnalysisPipe
+    ModalComponent,
   ],
   imports: [CommonModule, UserpageRoutingModule, ReactiveFormsModule ],
 })
