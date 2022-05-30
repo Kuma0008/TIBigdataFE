@@ -8,19 +8,19 @@
         id="document">
         <a (click)="toDocument()">매뉴얼</a>
       </li> -->
-      
+
       <li
         [ngStyle]="selectedStyleObject(currentMenu == 'management')"
         class="menu-item"
         id="management">
-        <a (click)="toManagement()">활용관리</a>
+        <a (click)="toManagement()">{{'open-api.활용관리'|translate}}</a>
       </li>
-      
+
       <li
         [ngStyle]="selectedStyleObject(currentMenu == 'gotoapi')"
         class="menu-item"
         id="gotoapi">
-        <a (click)="toGotoapi()">API이동</a>
+        <a (click)="toGotoapi()">{{'open-api.goToAPI'|translate}}</a>
       </li>
     </ul>
   </div>

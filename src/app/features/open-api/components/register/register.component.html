@@ -1,19 +1,27 @@
 <div class="content-container">
     <app-open-api-menu></app-open-api-menu>
-    
+
     <section class="content">
       <p><strong>활용 신청</strong></p>
-      
+    
     <div class="form-group">
-        <label for="app_name" > 활용명 </label>
+        <label for="app_type" > 활용타입 </label>
+        <input type="radio" name="app_type" id="app_type_public" checked>일반인용
+        <input type="radio" name="app_type" id="app_type_private">전문가용
+        <!-- <input type="radio" id="app_type" class="form-control" placeholder="활용명을 입력하세요"> -->
+    </div>  
+      
+      <p><strong>{{'open-api.callRequest'|translate}}</strong></p>
+
+    <div class="form-group">
+        <label for="app_name" > {{'open-api.requestTitle'|translate}} </label>
         <input type="text" id="app_name" class="form-control" placeholder="활용명을 입력하세요">
     </div>
     <div class="form-group">
-        <label for="app_purpose"> 활용 목적 </label>
+        <label for="app_purpose"> {{'open-api.requestReason'|translate}} </label>
         <textarea type="text" id="app_purpose" class="form-control" rows="3" placeholder="활용 목적을 입력하세요"></textarea>
         </div>
 
-      <button (click)="register()">활용 신청</button>
+      <button (click)="register()">{{'open-api.callRequest'|translate}}</button>
     </section>
   </div>
-  

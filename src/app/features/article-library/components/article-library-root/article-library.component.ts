@@ -4,6 +4,9 @@ import { AnalysisDatabaseService } from "src/app/core/services/analysis-database
 import { ElasticsearchService } from "src/app/core/services/elasticsearch-service/elasticsearch.service";
 import { SearchMode } from "src/app/core/enums/search-mode";
 import { ArticleService } from "src/app/core/services/article-service/article.service";
+import {DictionaryOption} from '../../../../core/enums/dictionary-option';
+
+
 
 @Component({
   selector: "app-category-library",
@@ -16,11 +19,14 @@ export class ArticleLibraryComponent implements OnInit {
     private elasticsearchService: ElasticsearchService,
     private articleService: ArticleService,
     public _router: Router
-  ) { }
+  ) {
+    this.elasticsearchService.setSearchMode(SearchMode.LIBRARY);
+  }
 
   //new
   private _totalSavedDocsNum: number;
   private _selectedTp: string;
+  private _selectedDict: string;
 
   private _toggleTopics: boolean[];
   private _institutionList: string[];
@@ -34,7 +40,7 @@ export class ArticleLibraryComponent implements OnInit {
     "경제",
     "사회",
     "국제",
-    "IT_과학",
+    "IT과학",
     "스포츠",
     "문화",
   ];
@@ -53,13 +59,11 @@ export class ArticleLibraryComponent implements OnInit {
     "카",
     "타",
     "파",
-    "하",
+    "하"
   ];
 
 
   ngOnInit() {
-    this.elasticsearchService.setSearchMode(SearchMode.ALL);
-    this.elasticsearchService.setCurrentSearchingPage(1);
     this.loadInstitutions();
   }
 
@@ -118,7 +122,6 @@ export class ArticleLibraryComponent implements OnInit {
     let ct = $event.target.innerText;
     let id = $event.target.id;
 
-
     switch (id) {
       case "topic": {
         this.cat_button_choice[0] = ct;
@@ -128,12 +131,12 @@ export class ArticleLibraryComponent implements OnInit {
 
       case "dict": {
         this.cat_button_choice[1] = ct;
+        this.selectDictionary(ct);
         break;
       }
 
       case "inst": {
         this.cat_button_choice[2] = ct;
-        console.log(doc);
         this.selectInstitution(doc);
         break;
       }
@@ -155,15 +158,14 @@ export class ArticleLibraryComponent implements OnInit {
    */
   async selectInstitution(institution: { key: string; doc_count: number }) {
     if (institution === null || this.selectedInst === institution.key) {
-      this.elasticsearchService.setSearchMode(SearchMode.ALL);
       this.selectedInst = "전체";
-      this.elasticsearchService.triggerSearch(1);
+      this.elasticsearchService.setSelectedInst("");
     } else {
       this.selectedInst = institution.key;
-      this.elasticsearchService.setSearchMode(SearchMode.INST);
       this.elasticsearchService.setSelectedInst(institution.key);
-      this.elasticsearchService.triggerSearch(1);
     }
+    this.elasticsearchService.setSearchMode(SearchMode.LIBRARY);
+    this.elasticsearchService.triggerSearch(1);
   }
 
   get_chosen_category() {
@@ -179,6 +181,35 @@ export class ArticleLibraryComponent implements OnInit {
   }
 
   // getters and setters
+  public setArrayValues(language): void {
+    if (language === 'ko') {
+      this.categories.splice(
+        0,
+        this.categories.length,
+        "전체",
+        "정치",
+        "경제",
+        "사회",
+        "국제",
+        "IT_과학",
+        "스포츠",
+        "문화");
+    }
+    else {
+      this.categories.splice(
+        0,
+        this.categories.length,
+        "Total",
+        "Politics",
+        "Economics",
+        "Social",
+        "International",
+        "IT_Science",
+        "Sports",
+        "Culture"
+      );
+    }
+  }
   public get toggleTopics(): boolean[] {
     return this._toggleTopics;
   }
@@ -242,37 +273,45 @@ export class ArticleLibraryComponent implements OnInit {
     this._selectedTp = value;
   }
 
+  public get selectedDict(): string {
+    return this._selectedDict;
+  }
+  public set selectedDict(value: string) {
+    this._selectedDict = value;
+  }
+
   /**
    * @description Select institutions and set search mode as selected
    * @param institution
    */
   async selectTopic(tp: string) {
-console.log("tp : ",tp)
-    if(tp === "전체"){
-      this.elasticsearchService.setSearchMode(SearchMode.ALL);
-      this.selectedTp = "전체";
-      this.elasticsearchService.triggerSearch(1);
-    } else {
-      this.selectedTp = tp;
+    this.selectedTp = tp;
 
-      let hashKeys = await this.getDocIDsFromTopic(tp);
-      hashKeys.map((e) => this.articleService.addHashKey(e));
-
-      let partialIDs: Object[] = this.articleService
-        .getList()
-        .slice(0, this.elasticsearchService.getNumDocsPerPage());
-
-      const ids: string[] = [];
-
-      for (let i = 0; i < partialIDs.length; i++) {
-        ids.push(partialIDs[i]["hashKey"]);
-      }
-
-      this.elasticsearchService.setKeyword(tp);
-      this.elasticsearchService.setSearchMode(SearchMode.HASHKEYS);
-      this.elasticsearchService.setArticleNumChange(hashKeys.length);
-      this.elasticsearchService.setHashKeys(ids);
-      this.elasticsearchService.multiHashKeySearchComplete();
+    if(this.selectedTp === "전체"){
+      this.elasticsearchService.setTopicHashKeys([]);
     }
+    else {
+      this.articleService.clearList();
+      let hashKeys = await this.getDocIDsFromTopic(this.selectedTp);
+      let ids: string[] = [];
+      hashKeys.map((e) =>
+        ids.push(e["hash_key"])
+      );
+      this.elasticsearchService.setTopicHashKeys(ids);
+    }
+    this.elasticsearchService.setSearchMode(SearchMode.LIBRARY);
+    this.elasticsearchService.triggerSearch(1);
+  }
+
+  async selectDictionary(dict: string) {
+    this.selectedDict = dict;
+
+    if(this.selectedDict === "전체"){
+      this.elasticsearchService.setFirstChar("");
+    } else {
+      this.elasticsearchService.setFirstChar(DictionaryOption[this.selectedDict]);
+    }
+    this.elasticsearchService.setSearchMode(SearchMode.LIBRARY);
+    this.elasticsearchService.triggerSearch(1);
   }
 }

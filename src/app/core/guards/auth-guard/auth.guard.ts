@@ -7,6 +7,7 @@ import {
 } from "@angular/router";
 import { Observable } from "rxjs";
 import { AuthenticationService } from "src/app/core/services/authentication-service/authentication.service";
+import {TranslateService} from '@ngx-translate/core';
 
 @Injectable({
   providedIn: "root",
@@ -14,7 +15,8 @@ import { AuthenticationService } from "src/app/core/services/authentication-serv
 export class AuthGuard implements CanActivate {
   constructor(
     public authService: AuthenticationService,
-    public router: Router
+    public router: Router,
+    private translate: TranslateService
   ) {}
 
   canActivate(
@@ -35,7 +37,7 @@ export class AuthGuard implements CanActivate {
       }
     // other pages follows canActivate policy set in routing module
     } else if (!localStorage.getItem("KUBIC_TOKEN")) {;
-      window.alert("비정상적인 접근입니다. 로그인이 되어있는지 확인해주세요.");
+      window.alert(this.translate.instant('alerts.abnormalAccess'));
       this.router.navigate(["login"]); // temporily
     }
 

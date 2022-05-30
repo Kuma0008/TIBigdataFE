@@ -31,7 +31,7 @@ This server is used as API server between Angular on FrontEnd side and MongoDB. 
    - myDoc.js
    - qna.js
    - rcmd.js
-   - tfidf.js
+   - count.js
    - topic.js
    - user.js
    - userStatus.js
@@ -47,7 +47,7 @@ This server is used as API server between Angular on FrontEnd side and MongoDB. 
    - qnaDocsQuery.js
    - rcmdQuery.js
    - searchHistoryQuery.js `[Deprecated]`
-   - tfidfQuery.js
+   - countQuery.js
    - topicQuery.js
    - userAuthQuery.js
 

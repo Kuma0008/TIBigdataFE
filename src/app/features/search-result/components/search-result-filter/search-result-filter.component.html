@@ -1,93 +1,118 @@
 <section class="filter-container">
   <div class="keyword-analysis">
-    <button class="keyword-analysis-run">키워드분석</button>
-    <button class="helper"></button>
+    <button class="keyword-analysis-run"
+            (click)="toKeywordAnalysis()"
+    >{{'search-result.keywordAnalysis'|translate}}</button>
+    <div class="helper">
+      <span class="arrow-box">{{'search-result.keywordResult1'|translate}} "{{ getSearchKeyword }}" {{'search-result.keywordResult2'|translate}}</span>
+    </div>
     <button
       class="research-result-mobile-run"
       (click)="selectSearchFilter()"
-    >검색필터</button>
+    >{{'search-result.searchFilter'|translate}}</button>
   </div>
   <div class="outline">
     <div [ngClass]="isSelectSearchFilter ? 'filter on' : 'filter'">
       <div class="title-box">
-        <h1>검색필터</h1>
+        <h1>{{'search-result.searchFilter'|translate}}</h1>
       </div>
       <section>
         <h2>
-          검색필터<img
+          {{'search-result.searchFilter'|translate}}
+          <img
           (click)="resetFilters()"
           class="reset-btn"
           src="../../../../../assets/icons/reset-filter.png"
           alt="filter-reset"
-        />
+          type="reset"
+          onclick="document.getElementById('mustKeyword').value = '';document.getElementById('mustNotKeyword').value = ''"
+          />
         </h2>
       </section>
+      <section class="doctype">
+        <h3>{{'문서 종류'|translate}}</h3>
+        <div class="doctype-container">
+          <button
+            (click)="selectDoc($event)"
+            [ngStyle]="selectedStyleObject(selectedDoctype === '문서')"
+          >{{ '문서' }}</button>
+          <button
+            (click)="selectDoc($event)"
+            [ngStyle]="selectedStyleObject(selectedDoctype === '기사')"
+          >{{ '기사' }}</button>
+        </div>
+      </section>
       <section class="keyword-search">
-        <h3>결과 내 재검색</h3>
+        <h3>{{'search-result.searchWithin'|translate}}</h3>
         <div class="input-container">
           <div class="text-inputs">
             <input
+              id="mustKeyword"
               type="text"
               placeholder="키워드 포함"
               (change)="mustKeyword($event)"
               />
             <input
+              id="mustNotKeyword"
               type="text"
               (change)="mustNotKeyword($event)"
-              placeholder="키워드 제외"/>
+              placeholder="키워드 제외"
+            />
           </div>
-          <button
-            (click)="selectKeywords($event)"
-            class="search-btn"></button>
         </div>
       </section>
       <section class="date-range">
-        <h3>기간</h3>
+        <h3>{{'기간'|translate}}</h3>
         <div class="date-range-container">
           <button
             (click)="selectDate($event)"
             [ngStyle]="selectedStyleObject(selectedDate === '1일')"
-          >1일</button>
+          >{{'1일'|translate}}</button>
           <button
             (click)="selectDate($event)"
             [ngStyle]="selectedStyleObject(selectedDate === '1주')"
-          >1주</button>
+          >{{'1주'|translate}}</button>
           <button
             (click)="selectDate($event)"
             [ngStyle]="selectedStyleObject(selectedDate === '1개월')"
-          >1개월</button>
+          >{{'1개월'|translate}}</button>
           <button
             (click)="selectDate($event)"
             [ngStyle]="selectedStyleObject(selectedDate === '3개월')"
-          >3개월</button>
+          >{{'3개월'|translate}}</button>
           <button
             (click)="selectDate($event)"
             [ngStyle]="selectedStyleObject(selectedDate === '6개월')"
-          >6개월</button>
+          >{{'6개월'|translate}}</button>
           <button
             (click)="selectDate($event)"
             [ngStyle]="selectedStyleObject(selectedDate === '1년')"
-          >1년</button>
+          >{{'1년'|translate}}</button>
           <button
             (click)="selectDate($event)"
             [ngStyle]="selectedStyleObject(selectedDate === '전체')"
-          >전체</button>
+          >{{'전체'|translate}}</button>
         </div>
 
         <div class="date-input">
-          <p>직접입력
+          <p>{{'직접입력'|translate}}
             <button
             (click)="selectDate($event)"
             [ngStyle]="selectedStyleObject(selectedDate === '확인')"
             class = datepicker-btn
-          > 확인 </button>
+            type="reset"
+            onclick="
+              document.getElementById('mustKeyword').value = '';
+              document.getElementById('mustNotKeyword').value = '';
+              document.getElementById('startPicker').value = '';
+              document.getElementById('endPicker').value = '';"          > {{'확인'|translate}} </button>
           </p>
-          <input type="date" value="startDate" (change)="setDatePickerStartDate($event)"/>
-          <input type="date" value="endDate" (change)="setDatePickerEndDate($event)"/>
+          <input id="startPicker" type="date" value="startDate" (change)="setDatePickerStartDate($event)"/>
+          <input id="endPicker"  type="date" value="endDate" (change)="setDatePickerEndDate($event)"/>
         </div>
       </section>
       <section class="inst">
-        <h3>기관별</h3>
+        <h3>{{'article-library.organization'|translate}}</h3>
         <div class="inst-button-container">
           <button
             *ngFor="let inst of institutionList"
@@ -100,7 +125,7 @@
         </div>
       </section>
       <section class="topics">
-        <h3>주제별</h3>
+        <h3>{{'article-library.byTopic'|translate}}</h3>
         <div class="topics-container">
           <button
             *ngFor="let cat of topics; let i = index"
@@ -116,11 +141,18 @@
         <button
           class="confirm-btn"
           id="confirm"
-        >확인</button>
+          (click) = "confirm()"
+        >{{'확인'|translate}}</button>
         <button
           class="cancel-btn"
           id="cancel"
-        >취소</button>
+          (click) = "resetFilters()"
+          onclick="
+            document.getElementById('mustKeyword').value = '';
+            document.getElementById('mustNotKeyword').value = '';
+            document.getElementById('startPicker').value = '';
+            document.getElementById('endPicker').value = '';"
+        >{{'취소'|translate}}</button>
       </div>
       <a
         class="close"

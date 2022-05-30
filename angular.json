@@ -31,6 +31,7 @@
             "tsConfig": "src/tsconfig.app.json",
             "assets": [
               "src/favicon.ico",
+              "src/assets/",
               "src/assets/logos",
               "src/assets/icons",
               "src/assets/manual.pdf",

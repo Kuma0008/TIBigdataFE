@@ -157,6 +157,15 @@ var LDAvis = function(to_select, data_or_file_name, color1, color2) {
         // http://bl.ocks.org/d3noob/10633704
         init_forms(topicID, lambdaID, visID);
 
+        // window.onload = function() {
+        //     window.addEventListener('resize', function(){
+        //         var frame = document.getElementById('topID');
+        //         frame.setAttribute("style", "width:"+ (window.innerWidth - 500) + 'px');
+        //         var subframe = document.getElementById('subframe1');
+        //         subframe.setAttribute("style","width"+(window.innerWidth - 500) + 'px');
+        //     });
+        // }
+
         // When the value of lambda changes, update the visualization
         console.log('lambda_select', lambda_select);
         d3.select(lambda_select)
@@ -415,17 +424,17 @@ var LDAvis = function(to_select, data_or_file_name, color1, color2) {
             .attr("id", function(d) {
                 return (topicID + d.topics);
             })
-            .on("mouseover", function(d) {
+            .on("mouseover", function(e, d) {
                 var old_topic = topicID + vis_state.topic;
                 if (vis_state.topic > 0 && old_topic != this.id) {
                     topic_off(document.getElementById(old_topic));
                 }
                 topic_on(this);
             })
-            .on("click", function(d) {
+            .on("click", function(e,d) {
                 // prevent click event defined on the div container from firing
                 // http://bl.ocks.org/jasondavies/3186840
-                d3.event.stopPropagation();
+                e.stopPropagation();
                 var old_topic = topicID + vis_state.topic;
                 if (vis_state.topic > 0 && old_topic != this.id) {
                     topic_off(document.getElementById(old_topic));
@@ -435,7 +444,7 @@ var LDAvis = function(to_select, data_or_file_name, color1, color2) {
                 state_save(true);
                 topic_on(this);
             })
-            .on("mouseout", function(d) {
+            .on("mouseout", function(e, d) {
                 if (vis_state.topic != d.topics) topic_off(this);
                 if (vis_state.topic > 0) topic_on(document.getElementById(topicID + vis_state.topic));
             });
@@ -585,14 +594,16 @@ var LDAvis = function(to_select, data_or_file_name, color1, color2) {
         function init_forms(topicID, lambdaID, visID) {
 
             // create container div for topic and lambda input:
-            var inputDiv = document.createElement("div");
+            var inputDiv = document.createElement("svg");
             inputDiv.setAttribute("id", topID);
-            inputDiv.setAttribute("style", "width: 750px"); // to match the width of the main svg element
+            // inputDiv.setAttribute("style", "width: 750px"); // to match the width of the main svg element
+            inputDiv.setAttribute("style", "width:"+ (window.innerWidth - 500) + 'px');
             document.getElementById(visID).appendChild(inputDiv);
 
             // topic input container:
-            var topicDiv = document.createElement("div");
-            topicDiv.setAttribute("style", "padding: 5px; background-color: #e8e8e8; display: flex; width: " + mdswidth + "px; height: 50px; float: left");
+            var topicDiv = document.createElement("svg");
+            topicDiv.setAttribute("id","subframe1")
+            topicDiv.setAttribute("style", "padding: 5px; background-color: #e8e8e8; display: flex; width: " + mdswidth + "px; height: 60px; float: left");
             // topicDiv.setAttribute("style", "display: flex;");
             inputDiv.appendChild(topicDiv);
 
@@ -614,27 +625,39 @@ var LDAvis = function(to_select, data_or_file_name, color1, color2) {
 
             var previous = document.createElement("button");
             previous.setAttribute("id", topicDown);
-            previous.setAttribute("style", "margin-left: 5px");
+            previous.setAttribute("style", "margin-left: 5px;font-size:12px");
             previous.innerHTML = "Previous Topic";
             topicDiv.appendChild(previous);
 
             var next = document.createElement("button");
             next.setAttribute("id", topicUp);
-            next.setAttribute("style", "margin-left: 5px");
+            next.setAttribute("style", "margin-left: 5px;font-size:12px");
             next.innerHTML = "Next Topic";
             topicDiv.appendChild(next);
 
             var clear = document.createElement("button");
             clear.setAttribute("id", topicClear);
-            clear.setAttribute("style", "margin-left: 5px");
+            clear.setAttribute("style", "margin-left: 5px;font-size:12px");
             clear.innerHTML = "Clear Topic";
             topicDiv.appendChild(clear);
+
+            var termElem = document.getElementById(termID + vis_state.term);
+            if (termElem !== undefined) term_off(termElem);
+            vis_state.term = "";
+            var value_old = document.getElementById(topicID).value;
+            var value_new = Math.min(K, +value_old + 1).toFixed(0);
+            // increment the value in the input box
+            document.getElementById(topicID).value = value_new;
+            topic_off(document.getElementById(topicID + value_old));
+            topic_on(document.getElementById(topicID + value_new));
+            vis_state.topic = value_new;
+            state_save(true);
 
             // lambda inputs
             var lambdaDivWidth = barwidth;
             var lambdaDiv = document.createElement("div");
             lambdaDiv.setAttribute("id", lambdaInputID);
-            lambdaDiv.setAttribute("style", "padding: 5px; background-color: #e8e8e8; display: inline-block; height: 50px; width: " + lambdaDivWidth + "px; float: right; margin-right: 0px");
+            lambdaDiv.setAttribute("style", "padding: 5px; background-color: #e8e8e8; display: inline-block; height: 60px; width: " + lambdaDivWidth + "px; float: right; margin-right: 0px");
             inputDiv.appendChild(lambdaDiv);
 
             // var lambdaZero = document.createElement("div");

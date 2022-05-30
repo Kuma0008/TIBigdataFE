@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const rcmdSchema = new Schema({
-  docID: String,
+  hashKey: String,
   rcmd: [],
   lastUpdate: Date,
 });

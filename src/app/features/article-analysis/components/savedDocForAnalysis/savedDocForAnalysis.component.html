@@ -1,34 +1,36 @@
 <section *ngIf="isSavedDocsEmpty" class="saved-document-list">
-  문서함이 비었습니다.
+  {{'analysis.empty'|translate}}
 </section>
 
 <section *ngIf="isSavedDocsLoaded" class="saved-document-list">
-  <span class="section-header">내 보관함</span>
-  <span class="section-info">분석하실 문서를 선택해주세요.</span>
-  <hr>
-  
+  <span class="section-header">{{'navbar.myDocuments'|translate}}</span>
+  <span class="section-info">{{'analysis.chooseDocument'|translate}}</span>
+
   <div class="savedDocTable">
   <table>
     <thead>
       <tr>
-        <th>선택</th>
-        <th>검색 키워드</th>
-        <th>문서목록</th>
-        <th>수집날짜</th>
+        <th class="choice">{{'analysis.select'|translate}}</th>
+        <th class="search-keyword">{{'analysis.searchKeyword'|translate}}</th>
+        <th class="document-list">{{'analysis.documentList'|translate}}</th>
+        <th class="config-date">{{'analysis.수집날짜'|translate}}</th>
         <!-- <th>통계</th> -->
-        <th>전처리</th>
+        <th class="preprocessing">{{'analysis.preprocessing.preprocessing'|translate}}</th>
         </tr>
     </thead>
+
     <tbody>
       <tr *ngFor="let docSet of savedDocs;index as idx">
-          <td><input 
+          <td>
+            <input
             class="article-radio"
             type="radio"
             name="selectDoc"
             [value]="idx"
             (change)="emitData('select',docSet['keyword'], docSet['savedDate'], docSet['preprocessed'])"
-          /></td>
-          
+          />
+        </td>
+
           <td class="text-center">{{ docSet['keyword'] }}</td>
           <td class="text-center"><ul *ngFor="let adoc of docSet['title']" class="text-left">
             <div class="savedAdocTable"> - {{adoc}}</div>
@@ -38,14 +40,14 @@
           <!-- <td class="text-center">총문서수:{{ docSet['savedDocHashKeys'].length}}개<br> 평균 단어수:230개</td> -->
           <td class="text-center">
           <div *ngIf="docSet['preprocessed']">
-          <button class="tablebtn"(click)="emitData('preview',docSet['keyword'],docSet['savedDate'])">미리보기</button>
-          <button class="tablebtn"(click)="emitData('download',docSet['keyword'], docSet['savedDate'])">다운로드</button>
+          <button class="tablebtn"(click)="emitData('preview',docSet['keyword'],docSet['savedDate'])">{{'미리보기'|translate}}</button>
+          <button class="tablebtn"(click)="emitData('download',docSet['keyword'], docSet['savedDate'])">{{'다운로드'|translate}}</button>
           </div>
         </td>
     </tr>
     </tbody>
+
   </table>
+
   </div>
-  
-  <hr>
 </section>

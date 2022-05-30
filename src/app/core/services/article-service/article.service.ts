@@ -32,6 +32,20 @@ export class ArticleService {
     return docTitles;
   }
 
+  async convertDocHashKeysToDoctypes(hashKeys: string[]): Promise<string[]> {
+    let doctype: Array<string> = new Array<string>(hashKeys.length);
+    this.elasticsearchService.setHashKeys(hashKeys);
+    await this.elasticsearchService.searchByManyHashKey().then((res) => {
+      let articles: {}[] = res["hits"]["hits"];
+      for (let i = 0; i < articles.length; i++) {
+        let idx = hashKeys.indexOf(articles[i]["_source"]["hash_key"]);
+        let extractedDoctype: string = articles[i]["_source"]["doc_type"];
+        doctype[idx] = extractedDoctype.trim();
+      }
+    });
+    return doctype;
+  }
+
   /**
    * @description clear current list of articles
    */

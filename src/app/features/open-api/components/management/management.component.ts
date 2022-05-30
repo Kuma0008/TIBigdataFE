@@ -47,7 +47,7 @@ export class ManagementComponent implements OnInit {
    * @param _id
    */
   async reissue(_id:string): Promise<void>{
-    let authKey = (await this.apiService.reissueKey(_id)).authKey;
+    let authKey = (await this.apiService.reissueKey(this.userProfile.email, _id)).authKey;
     prompt('성공적으로 인증키가 변경되었습니다.\n복사하세요.',authKey);
     this.ngOnInit();
     return ;

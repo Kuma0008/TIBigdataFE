@@ -3,8 +3,8 @@
 >
   <p class="doc-title">{{ doc["title"] }}</p>
   <div class="doc-date-writer announcement">
-    <p class="doc-writer">작성자: {{ doc["userName"] }}</p>
-    <p class="doc-regDate">등록일: {{ doc["regDate"] }}</p>
+    <p class="doc-writer">{{'작성자: '|translate}}{{ doc["userName"] }}</p>
+    <p class="doc-regDate">{{'등록일: '|translate}}{{ doc["regDate"] }}</p>
   </div>
   <div class="doc-content-announce">
     <p>{{ doc["content"] }}</p>
@@ -36,14 +36,14 @@
       class="button-reply"
       (click)="changeReplyMode()"
     >
-      수정
+      {{'수정'|translate}}
     </button>
     <button
       *ngIf="isAdmin && isReplyWriter"
       class="button-reply"
       (click)="deleteReply()"
     >
-      삭제
+      {{'삭제'|translate}}
     </button>
     <div class="doc-date-writer">
       <p class="doc-writer">{{ doc["reply"].userName }}</p>
@@ -79,9 +79,9 @@
         ></textarea>
       </div>
       <div class="info-container">
-        <button class="button-reply" type="submit">등록</button>
+        <button class="button-reply" type="submit">{{'등록'|translate}}</button>
         <button class="button-reply" type="button" (click)="changeReplyMode()">
-          취소
+          {{'취소'|translate}}
         </button>
       </div>
     </form>
@@ -89,21 +89,21 @@
 </div>
 
 <div class="buttons">
-  <button class="button-list" (click)="goToList()">목록</button>
+  <button class="button-list" (click)="goToList()">{{'목록'|translate}}</button>
   <button
     *ngIf="!isAnswered && isPostWriter"
     class="button-mod"
     (click)="navigateToModDoc()"
   >
-    수정
+    {{'수정'|translate}}
   </button>
   <button *ngIf="isPostWriter" class="button-del" (click)="deleteDoc()">
-    삭제
+    {{'삭제'|translate}}
   </button>
   <button
     *ngIf="!isAnswered && isAdmin && currentMenu == 'qna'"
     (click)="changeReplyMode()"
   >
-    답변 등록
+    {{'답변 등록'|translate}}
   </button>
 </div>

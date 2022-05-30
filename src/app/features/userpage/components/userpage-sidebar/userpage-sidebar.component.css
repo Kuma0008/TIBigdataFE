@@ -12,8 +12,8 @@
   .outline {
     grid-area: outline;
     border: 1px solid #606060;
-    border-top-right-radius: 50px;
-    border-bottom-right-radius: 50px;
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
     border-left: none;
     display: grid;
     grid-template-columns: repeat(5, minmax(0, 1fr));
@@ -37,8 +37,8 @@
   .outline {
     grid-area: outline;
     border: 1px solid #606060;
-    border-top-right-radius: 50px;
-    border-bottom-right-radius: 50px;
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
     border-left: none;
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -62,8 +62,8 @@
   .outline {
     grid-area: outline;
     border: 1px solid #606060;
-    border-top-right-radius: 50px;
-    border-bottom-right-radius: 50px;
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
     border-left: none;
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));

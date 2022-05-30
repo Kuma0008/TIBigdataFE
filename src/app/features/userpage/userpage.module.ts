@@ -23,6 +23,6 @@ import {TranslateModule} from '@ngx-translate/core';
     UserpageHeaderComponent,
     ModalComponent,
   ],
-  imports: [CommonModule, UserpageRoutingModule, ReactiveFormsModule, TranslateModule ],
+    imports: [CommonModule, UserpageRoutingModule, ReactiveFormsModule, TranslateModule],
 })
 export class UserpageModule { }

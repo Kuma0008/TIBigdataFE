@@ -1,18 +1,18 @@
 <input
   class="search-bar"
   (keyup.enter)="searchDocs($event)"
-  placeholder="검색"
+  placeholder="{{'검색'|translate}}"
 />
 
 <div class="submenu-container">
   <table>
     <thead>
       <tr>
-        <th class="doc-num">글 번호</th>
+        <th class="doc-num">{{'community-board.announceNo'|translate}}</th>
         <th class="doc-qna"></th>
-        <th class="doc-title">글 제목</th>
-        <th class="doc-writer">작성자</th>
-        <th class="doc-postdate">등록일</th>
+        <th class="doc-title">{{'community-board.announceTitle'|translate}}</th>
+        <th class="doc-writer">{{'community-board.writer'|translate}}</th>
+        <th class="doc-postdate">{{'community-board.announceDate'|translate}}</th>
       </tr>
     </thead>
 
@@ -20,8 +20,8 @@
       <tr *ngFor="let doc of docList; let i = index">
         <td class="doc-num">{{ doc["docId"] }}</td>
         <td>
-          <div *ngIf="isAnswered(doc)" class="qna-button complete">완료</div>
-          <div *ngIf="!isAnswered(doc)" class="qna-button ongoing">검토중</div>
+          <div *ngIf="isAnswered(doc)" class="qna-button complete">{{'community-board.completed'|translate}}</div>
+          <div *ngIf="!isAnswered(doc)" class="qna-button ongoing">{{'community-board.processing'|translate}}</div>
         </td>
 
         <td class="doc-title">
@@ -37,14 +37,14 @@
     <tbody *ngIf="!docList.length">
       <tr>
         <td class="no-docs" rowspan="5" colspan="5">
-          등록된 게시물이 없습니다.
+          {{'community-board.noContents'|translate}}
         </td>
       </tr>
     </tbody>
   </table>
 
   <div class="buttons">
-    <button class="button-write" (click)="navToWriteNewDoc()">글쓰기</button>
+    <button class="button-write" (click)="navToWriteNewDoc()">{{'community-board.write'|translate}}</button>
   </div>
 
   <div class="page-numbers">

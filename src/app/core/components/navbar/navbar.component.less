@@ -51,10 +51,20 @@ ul {
   border-radius: 2em;
 }
 
+img {
+  width:35px;
+  height:auto;
+}
+
 .common-menu>li:hover,
-.login-menu>li:hover,
+.login-menu>li:hover:not:first-child,
 .user-menu>li:hover {
   border: 2px solid #3db2e9;
+}
+
+.login-menu>li>img:hover{
+  border: 2px solid #3db2e9;
+  border-radius: 5px 5px 5px 5px;
 }
 
 .common-menu>li:not(:last-child),
@@ -70,6 +80,12 @@ ul {
   padding    : 0px;
   align-items: flex-end;
 }
+
+.word img{
+  width: 22px;
+  height: 15px;
+}
+
 
 .dropdown-container {
   display       : flex;
@@ -96,7 +112,7 @@ div>ul>li {
 
 div>ul>li>a {
   color      : gray;
-  font-weight: 300;
+  font-weight: 400;
   margin     : 0px;
   padding    : 0px;
 }
@@ -157,6 +173,18 @@ div>ul>li>a {
     border             : none;
   }
 
+  .language_tablet{
+    display: flex;
+    flex-direction: row;
+    margin-left: 75px;
+    position : fixed;
+    bottom : 0;
+  }
+
+  .language_tablet>li{
+    margin-right : 20px;
+  }
+
   /*mobile menu*/
   header .left > div.nav.on{
     display: block;
@@ -215,7 +243,6 @@ div>ul>li>a {
     display: block;
     text-align: center;
     font-size: 20px;
-    font-width: 300;
     z-index: 4;
   }
 
@@ -240,7 +267,6 @@ div>ul>li>a {
 
   .login-menu-tablet,
   .user-menu-tablet{
-    margin-top : 70px;
   }
 
   .login-menu-tablet>li,
@@ -344,6 +370,12 @@ div>ul>li>a {
     font-size: 17px;
     padding-top : 9px;
   }
+
+  img {
+    width:35px;
+    height:auto;
+    margin-top: -6.5rem;
+  }
 }
 
 @media (min-width: 321px) and (max-width: 375px){
@@ -353,6 +385,12 @@ div>ul>li>a {
     font-size: 17px;
     padding-top : 9px;
   }
+
+  img {
+    width:35px;
+    height:auto;
+    margin-top: -6.5rem;
+  }
 }
 
 @media (max-width: 320px){
@@ -361,6 +399,12 @@ div>ul>li>a {
     padding-right: 20px;
     font-size: 17px;
     padding-top : 9px;
+  }
+
+  img {
+    width:35px;
+    height:auto;
+    margin-top: -6.5rem;
   }
 }
 

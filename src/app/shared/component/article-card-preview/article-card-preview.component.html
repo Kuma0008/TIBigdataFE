@@ -1,12 +1,15 @@
 <div *ngIf="article" class="article-info">
+  <span *ngIf="((article.doc_type == 'paper'))" class="post-type"> 문서 </span>
+  <span *ngIf="((article.doc_type == 'news'))" class="post-type"> 기사 </span>
   <a class="post-title" (click)="openDocDetail()"> {{ article.post_title }} </a>
-  <div class="post-preview">{{ article.post_body }}</div>
+  <div *ngIf="(article.doc_type == 'paper')" class="post-preview">{{ article.post_body }}</div>
 <!--  normal-->
   <div class="post-detail-container">
-    <span *ngIf="article.post_date" class="post-date"> {{ article.post_date }} </span>
-    <span *ngIf="article.post_writer" class="post-writer"> {{ article.post_writer }} </span>
-    <span *ngIf="keywords[0]" class="post-keywords"> 키워드 </span>
+    <span *ngIf="((article.post_date) && (article.doc_type == 'paper'))" class="post-date"> {{ article.post_date }} </span>
+    <span *ngIf="((article.post_writer) && (article.doc_type == 'paper'))" class="post-writer"> {{ article.post_writer }} </span>
+    <span *ngIf="((keywords[0]) && (article.doc_type == 'paper'))" class="post-keywords"> {{'article-card.keywords'|translate}} </span>
     <span>{{ keywords[0] }}</span>
+    <span *ngIf="(article.doc_type == 'news')" class="published_inst" href="{{ article.published_institution_url }}}"> {{ article.published_institution }} </span>
   </div>
 <!--  mobile-->
   <div class="post-detail-container mobile">

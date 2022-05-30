@@ -16,100 +16,69 @@
 
     <div class="option-dict-box">
       <li class="option-dict">
-        <!--<strong>{{'analysis.preprocessing.유의어'|translate}}</strong>-->
-        <strong>유의어</strong>
-
+        <strong>{{'analysis.preprocessing.유의어'|translate}}</strong>
         <div class="radio-items">
           <div class="col-3">
             <input id='synonym_basic' class="only-sr checked" type="radio" name="synonym" value="basic" checked>
-            <!--<label for="synonym_basic">{{'analysis.preprocessing.defaultDictionary'|translate}}</label>-->
-            <label for="synonym_basic">기본 사전 사용</label>
-
+            <label for="synonym_basic">{{'analysis.preprocessing.defaultDictionary'|translate}}</label>
           </div>
           <div class="col-3">
             <input id='synonym_user' class="only-sr" type="radio" name="synonym" value="user">
-            <!--<label for="synonym_user">{{'analysis.preprocessing.myDictionary'|translate}}</label>-->
-            <label for="synonym_user">내 사전 사용</label>
-
+            <label for="synonym_user">{{'analysis.preprocessing.myDictionary'|translate}}</label>
           </div>
         </div>
-        <!--<input type="file" (click)="openTextFile('synonym')"  id="upload-synonym" style="display:none">
-        <button class="upload-dict"">
+        <button class="upload-dict" (click)="openTextFile('synonym')">
           <label class="upload-but" for="upload-synonym">{{'analysis.preprocessing.uploadMyDictionary'|translate}}</label>
         </button>
-        -->
-        <button class="upload-dict"  (click)="openTextFile('synonym')">
-          <!--<label class="upload-but" for="upload-synonym">{{'analysis.preprocessing.uploadMyDictionary'|translate}}</label>-->
-          <label class="upload-but" for="upload-synonym">사전 업로드</label>
-        </button>
         <button class="upload-dict" (click)="previewDict('synonym')">
-          <label class="upload-but" for="upload-stopword">사전 미리보기</label>
+          <label class="upload-but" for="upload-stopword">{{'analysis.preprocessing.previewDictionary'|translate}}</label>
         </button>
       </li>
       <li class="option-dict">
-        <!--<strong>{{'analysis.preprocessing.불용어'|translate}}</strong>-->
-        <strong>불용어</strong>
+        <strong>{{'analysis.preprocessing.불용어'|translate}}</strong>
         <div class="radio-items">
           <div class="col-3">
             <input id='stopword_basic' class="only-sr checked" type="radio" name="stopword" value="basic" checked>
-            <!--<label for="stopword_basic">{{'analysis.preprocessing.defaultDictionary'|translate}}</label>-->
-            <label for="stopword_basic">기본 사전 사용</label>
+            <label for="stopword_basic">{{'analysis.preprocessing.defaultDictionary'|translate}}</label>
           </div>
           <div class="col-3">
             <input id='stopword_user' class="only-sr" type="radio" name="stopword" value="user">
-            <!--<label for="stopword_user">{{'analysis.preprocessing.myDictionary'|translate}}</label>-->
-            <label for="stopword_user">내 사전 사용</label>
+            <label for="stopword_user">{{'analysis.preprocessing.myDictionary'|translate}}</label>
           </div>
         </div>
-        <!--
-        <input class="hide-but" type="file" (click)="openTextFile('stopword')"  id="upload-stopword" style="display:none">
-        <button class="upload-dict">
+        <button class="upload-dict" (click)="openTextFile('stopword')">
           <label class="upload-but" for="upload-stopword">{{'analysis.preprocessing.uploadMyDictionary'|translate}}</label>
         </button>
-        -->
-        <button class="upload-dict" (click)="openTextFile('stopword')">
-          <!--<label class="upload-but" for="upload-stopword">{{'analysis.preprocessing.uploadMyDictionary'|translate}}</label>-->
-          <label class="upload-but" for="upload-stopword">사전 업로드</label>
-        </button>
         <button class="upload-dict" (click)="previewDict('stopword')">
-          <label class="upload-but" for="upload-stopword">사전 미리보기</label>
+          <label class="upload-but" for="upload-stopword">{{'analysis.preprocessing.previewDictionary'|translate}}</label>
         </button>
       </li>
 
       <li class="option-dict">
-        <!--<strong>{{'analysis.preprocessing.복합어'|translate}}</strong>-->
-        <strong>복합어</strong>
+        <strong>{{'analysis.preprocessing.복합어'|translate}}</strong>
         <div class="radio-items">
           <div class="col-3">
             <input id='compound_basic' class="only-sr checked" type="radio" name="compound" value="basic" checked>
-            <!--<label for="compound_basic">{{'analysis.preprocessing.defaultDictionary'|translate}}</label>-->
-            <label for="compound_basic">기본 사전 사용</label>
+            <label for="compound_basic">{{'analysis.preprocessing.defaultDictionary'|translate}}</label>
           </div>
           <div class="col-3">
             <input id='compound_user' class="only-sr" type="radio" name="compound" value="user">
-            <!--<label for="compound_user">{{'analysis.preprocessing.myDictionary'|translate}}</label>-->
-            <label for="compound_user">내 사전 사용</label>
+            <label for="compound_user">{{'analysis.preprocessing.myDictionary'|translate}}</label>
           </div>
         </div>
-        <!--
-        <input type="file" (click)="openTextFile('compound')"  id="upload-compound" style="display:none">
-          <button class="upload-dict">
+          <button class="upload-dict" (click)="openTextFile('compound')">
             <label class="upload-but" for="upload-compound">{{'analysis.preprocessing.uploadMyDictionary'|translate}}</label>
           </button>
-        -->
-        <button class="upload-dict" (click)="openTextFile('compound')">
-          <!--<label class="upload-but" for="upload-compound">{{'analysis.preprocessing.uploadMyDictionary'|translate}}</label>-->
-          <label class="upload-but" for="upload-compound">사전 업로드</label>
-        </button>
-        <button class="upload-dict" (click)="previewDict('compound')">
-          <label class="upload-but" for="upload-stopword">사전 미리보기</label>
-        </button>
+          <button class="upload-dict" (click)="previewDict('compound')">
+            <label class="upload-but" for="upload-stopword">{{'analysis.preprocessing.previewDictionary'|translate}}</label>
+          </button>
       </li>
     </div>
     <br><br><br><br>
     <strong id="title"></strong>
     <figure id="table"></figure>
-    <button class="download-dict" id="download-dict" (click)="downloadDict()">사전 다운로드</button>
+    <button class="download-dict" id="download-dict" (click)="downloadDict()">{{'analysis.preprocessing.downloadDictionary'|translate}}</button>
+
 
 
     <!-- <button *ngIf="isSynonymLoaded" (click)="preview('synonym')">미리보기</button> -->
@@ -172,13 +141,11 @@
     <hr>
     <button (click)="runPreprocessing()" class="run">{{'analysis.preprocessing.start'|translate}}</button>
   </section>
-  <br><br><br>
 
   <section class='section-result' >
     <span class="section-header" *ngIf="isDataPreprocessed">{{'analysis.preprocessing.result'|translate}}</span>
     <span class="section-info" *ngIf="isDataPreprocessed">{{'analysis.preprocessing.resultTable'|translate}}</span>
     <hr *ngIf="isDataPreprocessed">
-    
     <span class="section-header" *ngIf="isDataPreview">{{'analysis.preprocessing.preview'|translate}}</span>
     <span class="section-info" *ngIf="isDataPreview">{{'analysis.preprocessing.previewResult'|translate}}</span>
     <hr *ngIf="isDataPreview">

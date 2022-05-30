@@ -10,6 +10,8 @@
 # /Depreciated_UniCenter_backend
 /fe-backend/node_modules
 /src/app/ip.service.ts
+# data team
+/fe-backend/server.js
 
 # IDEs and editors
 /.idea

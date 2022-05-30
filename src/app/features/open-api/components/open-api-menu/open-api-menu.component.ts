@@ -1,5 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
+import {TranslateService} from '@ngx-translate/core';
 
 @Component({
   selector: "app-open-api-menu",
@@ -9,7 +10,8 @@ import { Router } from "@angular/router";
 export class OpenApiMenuComponent implements OnInit {
   private _title: string = "";
   private _currentMenu: string = "";
-  constructor(private router: Router) { }
+  constructor(private router: Router,
+              private translate: TranslateService) { }
 
   ngOnInit(): void {
     let url = this.router.url.split("/");
@@ -50,10 +52,10 @@ export class OpenApiMenuComponent implements OnInit {
    * @param currentAddress
    */
   setTitle(currentAddress: string) {
-    if (currentAddress === "management") this.title = "활용관리";
-    if (currentAddress === "document") this.title = "매뉴얼";
-    if (currentAddress === "gotoapi") this.title = "API이동";
-    if (currentAddress === "register") this.title = "활용신청";
+    if (currentAddress === "management") this.title = this.translate.instant('open-api.활용관리');
+    if (currentAddress === "document") this.title = this.translate.instant('open-api.openAPIManual');
+    if (currentAddress === "gotoapi") this.title = this.translate.instant('open-api.goToAPI');
+    if (currentAddress === "register") this.title = this.translate.instant('open-api.callRequest');
   }
 
   toManagement() {

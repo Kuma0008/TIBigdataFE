@@ -9,6 +9,7 @@ import { LoginComponent } from "./components/login/login.component";
 import { RegisterOkComponent } from "./components/register-ok/register-ok.component";
 import { RegisterComponent } from "./components/register/register.component";
 import { CommunicationRoutingModule } from "./membership-routing.module";
+import {TranslateModule} from '@ngx-translate/core';
 
 @NgModule({
   declarations: [
@@ -17,15 +18,16 @@ import { CommunicationRoutingModule } from "./membership-routing.module";
     ApiRegisterComponent,
     LoginComponent,
   ],
-  imports: [
-    FormsModule,
-    CommonModule,
-    HttpClientModule,
-    CommunicationRoutingModule,
-    ReactiveFormsModule,
-    SocialLoginModule,
-    CoreModule,
-  ],
+    imports: [
+        FormsModule,
+        CommonModule,
+        HttpClientModule,
+        CommunicationRoutingModule,
+        ReactiveFormsModule,
+        SocialLoginModule,
+        CoreModule,
+        TranslateModule,
+    ],
   providers: [],
 })
 export class MembershipModule { }

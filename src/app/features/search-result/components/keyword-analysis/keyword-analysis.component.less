@@ -1,0 +1,185 @@
+@media all and (min-width: 1441px) {
+  .keyword-analysis-container {
+    grid-area            : main;
+    display              : grid;
+    align-content        : stretch;
+    grid-template-columns: repeat(15, minmax(0, 1fr));
+    grid-template-rows   : 1fr;
+    gap                  : 20px 20px;
+    grid-template-areas  : ". . . body body body body body body body body body body body body ";
+    height               : 100%;
+  }
+}
+
+@media all and (min-width: 1025px) and (max-width: 1440px) {
+  .keyword-analysis-container {
+    grid-area            : main;
+    display              : grid;
+    align-content        : stretch;
+    grid-template-columns: repeat(14, minmax(0, 1fr));
+    grid-template-rows   : 1fr;
+    gap                  : 20px 20px;
+    grid-template-areas  : ". . body body body body body body body body body body body body";
+    height               : 100%;
+  }
+}
+
+@media all and (min-width: 769px) and (max-width: 1024px) {
+  .keyword-analysis-container {
+    grid-area            : main;
+    display              : grid;
+    align-content        : stretch;
+    grid-template-columns: repeat(13, minmax(0, 1fr));
+    grid-template-rows   : 1fr;
+    gap                  : 20px 20px;
+    grid-template-areas  : " . body body body body body body body body body body body body  ";
+    height               : 100%;
+  }
+}
+
+.inputs{
+  display: flex;
+  padding-left: 19.8%;
+  padding-bottom: 1%;
+  padding-top: 0.6%;
+  align-items: center;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+
+  .input_month{
+    margin: 5px;
+  }
+  ._button{
+    margin: 5px;
+  }
+  .from-to{
+    font-size: 15px;
+  }
+  .analysis_button {
+    height             : -webkit-fit-content;
+    height             : fit-content;
+    margin-left        : 10px;
+    border             : none;
+    font-size          : 13px;
+    text-align         : center;
+    color              : white;
+    background-color   : #52b9ff;
+    outline            : none;
+    padding            : 0.3em 1em;
+  }
+}
+
+#chart-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 25px;
+  border       : 1px solid lightgrey;
+  padding      : 0% 0% 0% 0%;
+  margin       : 0% 20%;
+}
+
+.bar_chart{
+  display: flex;
+  justify-content: center;
+}
+
+ .message{
+      visibility: visible;
+      display: inline;
+      font-size: 1.0rem;
+      color: black;
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+
+.keyword-analysis {
+  grid-area: body;
+}
+
+.chart-wrapper {
+  margin-top   : 20px;
+  border-radius: 25px;
+  border       : 1px solid #52b9ff;
+  padding      : 5% 10%;
+  margin       : 0% 20%;
+}
+
+h1 {
+  font-size  : 20px;
+  font-weight: 700;
+  color      : #52b9ff;
+}
+
+.save-graph-button {
+  height             : -webkit-fit-content;
+  height             : -moz-fit-content;
+  height             : fit-content;
+  border-radius      : 35px;
+  border             : none;
+  font-size          : 1.5rem;
+  text-align         : end;
+  color              : white;
+  outline            : none;
+  padding            : 0.3em 1em;
+  padding-left       : 2.5em;
+  background-repeat  : no-repeat;
+  background-position: left 1em center;
+  background-size    : 1em;
+}
+
+.header {
+  margin         : 0 20%;
+}
+
+@media all and (min-width: 426px) and (max-width: 768px){
+  .keyword-analysis-container {
+    grid-area            : main;
+    display              : grid;
+    align-content        : stretch;
+    grid-template-columns: repeat(13, minmax(0, 1fr));
+    grid-template-rows   : 1fr;
+    gap                  : 20px 20px;
+    grid-template-areas  : " body body body body body body body body body body body body body  ";
+    height               : 100%;
+  }
+
+  .header{
+    font-size: 1em !important;
+  }
+
+  .chart-wrapper {
+    margin       : 0% 10%;
+  }
+
+  .save-graph-button {
+    font-size : 1.2rem;
+  }
+}
+
+@media all and (max-width: 425px){
+  .keyword-analysis-container {
+    grid-area            : main;
+    display              : grid;
+    align-content        : stretch;
+    grid-template-columns: repeat(13, minmax(0, 1fr));
+    grid-template-rows   : 1fr;
+    gap                  : 20px 20px;
+    grid-template-areas  : " body body body body body body body body body body body body body  ";
+    height               : 100%;
+
+  }
+
+  .chart-wrapper {
+    margin       : auto;
+    padding : 0;
+    width : 250px;
+    height: 250px;
+  }
+
+  .chart-wrapper>canvas{
+    width : 200% !important;
+    height : 100% !important;
+  }
+}

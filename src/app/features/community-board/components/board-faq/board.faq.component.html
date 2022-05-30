@@ -1,11 +1,11 @@
-<input class=search-bar (keyup.enter)="searchDocs($event)" placeholder="검색" />
+<input class=search-bar (keyup.enter)="searchDocs($event)" placeholder="{{'검색'|translate}}" />
 <div class="submenu-container">
   <table>
     <thead>
       <tr>
-        <th class="doc-num">글 번호</th>
-        <th class="doc-category">카테고리</th>
-        <th class="doc-title">글 제목</th>
+        <th class="doc-num">{{'community-board.announceNo'|translate}}</th>
+        <th class="doc-category">{{'community-board.category'|translate}}</th>
+        <th class="doc-title">{{'community-board.announceTitle'|translate}}</th>
       </tr>
     </thead>
 
@@ -21,13 +21,13 @@
 
     <tbody *ngIf="!docList.length">
       <tr>
-        <td class="no-docs" rowspan="3" colspan="3">등록된 게시물이 없습니다.</td>
+        <td class="no-docs" rowspan="3" colspan="3">{{'community-board.noContents'|translate}}</td>
       </tr>
     </tbody>
   </table>
 
   <div class="buttons">
-    <button *ngIf="isAdmin" class="button-write" (click)="navToWriteNewDoc()">글쓰기</button>
+    <button *ngIf="isAdmin" class="button-write" (click)="navToWriteNewDoc()">{{'community-board.write'|translate}}</button>
   </div>
 
   <div class="page-numbers">

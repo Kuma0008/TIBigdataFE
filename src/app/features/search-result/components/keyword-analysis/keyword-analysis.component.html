@@ -1,0 +1,22 @@
+<div class="keyword-analysis-container">
+  <section class="keyword-analysis">
+    <div class="header">
+      <h1>키워드 분석</h1>
+      <span class ="message">{{'search-result.keywordResult1'|translate}} "{{ getSearchKeyword }}"{{'search-result.keywordResult2'|translate}}</span>
+<!--      <button class="save-graph-button">담기</button>-->
+      <div class="save-graph-button"></div>
+    </div>
+    <span class ="inputs">
+      <input class="input_month" type="month" id="start_month" min="2022-01" max="{{ getCurrentYearMonth }}" value="{{ getCurrentYearMonth }}">
+      <span class = "from-to"> ~ </span>
+      <input class="input_month" type="month" id="end_month" min="2022-01" max="{{ getCurrentYearMonth }}" value="{{ getCurrentYearMonth }}">
+      <button class="_button" id="year_button" (click)="year_clicked()">{{'search-result.yearly'|translate}}</button>
+      <button class="_button" id="month_button" (click)="month_clicked()" autofocus>{{'search-result.monthly'|translate}}</button>
+      <button class="analysis_button" (click)="updateChart()">{{'analysis.startAnalysis'|translate}}</button>
+    </span>
+<!--    <div class="bar_chart" id="keyword-analysis"></div>-->
+    <section id="chart-wrapper">
+      <div id="keyword_analysis"></div>
+    </section>
+  </section>
+</div>

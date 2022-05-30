@@ -27,27 +27,27 @@ router.post("/getRcmdTbl", getRcmdTbl);
  * @description 문서의 id (혹은 id list) 을 전달 받으면 그 문서들의 연관 문서들을 문서 id 형태로 반환해준다.
  */
 function getRcmdTbl(req, res) {
-  let ids = req.body["id"];
+  let ids = req.body["hashKey"];
 
   // console.log("post getRcmdTbl")
   console.log(ids);
   // console.log(typeof(ids))
   //연관문서의 수를 몇개까지 반환해줄지 결정한다. 전달받은게 없으면 default으로 5개 반환한다.
   let num = req.body["num"]; //could be undefined if does not request specific num.
-  if (num == undefined) num = 6;
-  else {
-    num = parseInt(num);
-    num++; //자기 자신 지워야 한다. 코사인 유사도는 자기 자신에 대해서 가장 높은 값.
-  }
+  if (num == undefined) num = 5;
+  // else {
+  //   num = parseInt(num);
+  //   num++; //자기 자신 지워야 한다. 코사인 유사도는 자기 자신에 대해서 가장 높은 값.
+  // }
   //연관문서 결과를 반환할 때 연관된 정도의 수치도 함께 반환할지 결정
   let isSim = req.body["sim"];
   let matchQuery = undefined;
 
   if (typeof ids == "string")
     //only send one string
-    matchQuery = { docID: ids };
+    matchQuery = { hashKey: ids };
   //when send string array
-  else matchQuery = { docID: { $in: ids } };
+  else matchQuery = { hashKey: { $in: ids } };
 
   // console.log("right b4 equey")
   console.log(matchQuery);
@@ -59,7 +59,7 @@ function getRcmdTbl(req, res) {
       },
       {
         $project: {
-          docID: 1,
+          hashKey: 1,
           rcmd: { $slice: ["$rcmd", num] },
         },
       },
@@ -68,7 +68,7 @@ function getRcmdTbl(req, res) {
       },
       {
         $project: {
-          docID: 1,
+          hashKey: 1,
           rcmd: {
             $filter: {
               input: "$rcmd",
@@ -81,7 +81,7 @@ function getRcmdTbl(req, res) {
       },
       {
         $project: {
-          docID: 1,
+          hashKey: 1,
           rcmd: {
             $cond: {
               if: isSim,

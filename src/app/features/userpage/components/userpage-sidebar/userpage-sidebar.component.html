@@ -1,36 +1,36 @@
 <aside>
-  <h1>마이페이지</h1>
+  <h1>{{'마이페이지'|translate}}</h1>
   <div class="outline">
     <ul>
       <li
         [ngStyle]="selectedStyleObject(currentMenu === 'my-docs')"
         class="list"
       >
-        <a (click)="toMyDocs()">내 보관함</a>
+        <a (click)="toMyDocs()">{{'navbar.myDocuments'|translate}}</a>
       </li>
       <li
         [ngStyle]="selectedStyleObject(currentMenu === 'my-analysis')"
         class="list"
       >
-        <a (click)="toMyAnalysis()">내 분석함</a>
+        <a (click)="toMyAnalysis()">{{'navbar.myAnalysis'|translate}}</a>
       </li>
       <li
         [ngStyle]="selectedStyleObject(currentMenu === 'member-info')"
         class="list"
       >
-        <a (click)="toMemberInfo()">회원정보관리</a>
+        <a (click)="toMemberInfo()">{{'navbar.privacy'|translate}}</a>
       </li>
-      <li
+      <!-- <li
         [ngStyle]="selectedStyleObject(currentMenu === 'open-api')"
         class="list"
       >
         <a (click)="toOpenAPI()">OpenAPI</a>
-      </li>
+      </li> -->
       <li
         [ngStyle]="selectedStyleObject(currentMenu === 'secession')"
         class="list"
       >
-        <a (click)="toSecession()">회원탈퇴</a>
+        <a (click)="toSecession()">{{'navbar.rmAccount'|translate}}</a>
       </li>
     </ul>
   </div>

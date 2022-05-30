@@ -1,15 +1,17 @@
 import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: "app-analysis-menu",
   templateUrl: "./analysis-menu.component.html",
-  styleUrls: ["./analysis-menu.component.css"],
+  styleUrls: ["../../analysis-style.less"],
 })
 export class AnalysisMenuComponent implements OnInit {
   private _title: string = "";
   private _currentMenu: string = "";
-  constructor(private router: Router) { }
+  constructor(private router: Router,
+              private translate: TranslateService) { }
 
   ngOnInit(): void {
     let url = this.router.url.split("/");
@@ -21,7 +23,6 @@ export class AnalysisMenuComponent implements OnInit {
     if(matchMedia("(max-width: 425px)").matches) {
       if (flag) {
         return {
-          color: "black",
           "font-weight": "bold",
           "border-bottom" : "0.2rem solid #0FBAFF",
         };
@@ -50,23 +51,23 @@ export class AnalysisMenuComponent implements OnInit {
    * @param currentAddress
    */
   setTitle(currentAddress: string) {
-    if (currentAddress === "manual") this.title = "매뉴얼";
-    if (currentAddress === "preprocessing") this.title = "전처리";
-    if (currentAddress === "analysis") this.title = "분석";
+    if (currentAddress === "manual") this.title = this.translate.instant('메뉴얼');
+    if (currentAddress === "preprocessing") this.title = this.translate.instant('전처리');
+    if (currentAddress === "analysis") this.title = this.translate.instant('자료분석');
   }
 
   toManual() {
-    this.router.navigateByUrl("/analysis/manual");
+    this.router.navigateByUrl("/analysis-menu/manual");
     this.ngOnInit();
   }
 
   toPreprocessing() {
-    this.router.navigateByUrl("/analysis/preprocessing");
+    this.router.navigateByUrl("/analysis-menu/preprocessing");
     this.ngOnInit();
   }
 
   toAnalysis() {
-    this.router.navigateByUrl("/analysis/analysis");
+    this.router.navigateByUrl("/analysis-menu/analysis");
     this.ngOnInit();
   }
 

@@ -1,13 +1,13 @@
-<input class=search-bar (keyup.enter)="searchDocs($event)" placeholder="검색" />
+<input class=search-bar (keyup.enter)="searchDocs($event)" placeholder="{{'검색'|translate}}" />
 
 <div class="submenu-container">
   <table>
     <thead>
       <tr>
-        <th class="doc-num">글 번호</th>
+        <th class="doc-num">{{'community-board.announceNo'|translate}}</th>
         <th class="doc-announcement"></th>
-        <th class="doc-title">글 제목</th>
-        <th class="doc-postdate">등록일</th>
+        <th class="doc-title">{{'community-board.announceTitle'|translate}}</th>
+        <th class="doc-postdate">{{'community-board.announceDate'|translate}}</th>
       </tr>
     </thead>
 
@@ -25,16 +25,16 @@
 
     <tbody *ngIf="!docList.length">
       <tr>
-        <td class="no-docs" rowspan="4" colspan="4">등록된 게시물이 없습니다.</td>
+        <td class="no-docs" rowspan="4" colspan="4">{{'community-board.noContents'|translate}}</td>
       </tr>
     </tbody>
   </table>
 
   <div class="buttons">
-    <button *ngIf="isAdmin" class="button-write" (click)="navToWriteNewDoc()">글쓰기</button>
+    <button *ngIf="isAdmin" class="button-write" (click)="navToWriteNewDoc()">{{'community-board.write'|translate}}</button>
   </div>
 
-  
+
   <div class="page-numbers">
     <button id="page-multiprev" *ngIf="currentPage > 1" (click)="loadPage(currentPage - 10)"></button>
     <button id="page-prev" *ngIf="currentPage > 1" (click)="loadPage(currentPage - 1)"></button>

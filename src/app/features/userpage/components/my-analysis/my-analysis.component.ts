@@ -3,7 +3,7 @@ import { UserProfile } from 'src/app/core/models/user.model';
 import { AnalysisOnMiddlewareService } from "src/app/core/services/analysis-on-middleware-service/analysis.on.middleware.service";
 import { AuthenticationService } from 'src/app/core/services/authentication-service/authentication.service';
 import { UserSavedDocumentService } from 'src/app/core/services/user-saved-document-service/user-saved-document.service';
-import { FormArray, FormBuilder, FormControl, FormGroup, RangeValueAccessor } from "@angular/forms";
+import { FormArray, FormBuilder, FormControl, FormGroup } from "@angular/forms";
 import { AnalysisComponent } from 'src/app/features/article-analysis/components/analysis/analysis.component'
 import { ModalService } from './modal/modal.service';
 import * as d3 from 'd3';
@@ -98,7 +98,6 @@ export class MyAnalysisComponent extends AnalysisComponent implements OnInit {
     for(let i in this.charts){
       this.charts[i]["isSelected"] = false;
     }
-    console.log(this.charts); 
   }
 
   /**
@@ -106,8 +105,6 @@ export class MyAnalysisComponent extends AnalysisComponent implements OnInit {
    */
   async getChartData(chart: any) : Promise<any>{
     let parsedDate = this.parsingDate(chart.analysisDate);
-    console.log(parsedDate);
-
     let data = JSON.stringify({
       'userEmail': chart.userEmail,
       'keyword': chart.keyword,
@@ -219,9 +216,6 @@ export class MyAnalysisComponent extends AnalysisComponent implements OnInit {
       this.drawTopicModeling(this.chartData.result_graph);
       this.isDownloadable = false;
     }
-
-    console.log(chart.activity);
-    console.log(this.isDownloadable);
   }
 
   closeModal(id: string){
@@ -234,7 +228,6 @@ export class MyAnalysisComponent extends AnalysisComponent implements OnInit {
 
   async deleteSelectedCharts() : Promise<void>{
     let frmArray = this.form.get("checkArray") as FormArray;
-    console.log(frmArray.value);
     if(frmArray.value.length == 0){
       alert("삭제할 차트가 없습니다! 삭제할 차트를 선택해주세요.")
     }else{
@@ -243,16 +236,15 @@ export class MyAnalysisComponent extends AnalysisComponent implements OnInit {
         for(let i in frmArray.value){
           let data = JSON.stringify({
             'userEmail' : this.userProfile.email,
-            'analysisDate':  frmArray.value[i]
+            'analysisDate': frmArray.value[i]
           });
-          await this.middlewareService.postDataToFEDB('/textMining/deleteCharts',data);
+          await this.middlewareService.postDataToFEDB('/textMining/deleteCharts',data); 
         }
-        frmArray.clear(); 
+        frmArray.clear();
       } else{
         frmArray.clear();
       } 
     //this.currentKeywordAndDate(this.keyword, this.savedDate);
-    console.log(this.keyword);
     this.getCharts(this.keyword, this.savedDate);
    }
   }

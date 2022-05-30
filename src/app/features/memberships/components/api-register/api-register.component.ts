@@ -9,6 +9,7 @@ import { AuthenticationService } from "src/app/core/services/authentication-serv
 })
 export class ApiRegisterComponent implements OnInit {
   private _isAgreed: boolean = false;
+  private _isMain: boolean = false;
 
   constructor(
     private authenticationService: AuthenticationService,
@@ -28,6 +29,7 @@ export class ApiRegisterComponent implements OnInit {
   async registerApi(): Promise<void> {
     let res = await this.authenticationService.apiRegister();
     if (res) {
+      this.authenticationService.getCurrentUser().isApiUser=true;
       window.alert("가입이 완료되었습니다!");
       this._router.navigateByUrl("/");
     }
@@ -42,5 +44,13 @@ export class ApiRegisterComponent implements OnInit {
   }
   public set isAgreed(value: boolean) {
     this._isAgreed = value;
+  }
+
+  gotoMain(): void {
+    this._router.navigateByUrl("");
+  }
+
+  public get isMain():boolean{
+    return this._isMain;
   }
 }

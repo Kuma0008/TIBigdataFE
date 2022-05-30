@@ -7,20 +7,6 @@ export class CSVDownloadService {
   constructor() { }
 
   /**
-   * @description download csv file
-   * @param data in string 
-   * @param name filename
-   */
-  downloadFile(str: string, name: string){
-    const link = document.createElement("a");
-    const fileName = name + '.csv';
-    const blob = new Blob(["\uFEFF"+str], { type: 'text/csv; charset=utf-8'});
-    const url = URL.createObjectURL(blob);
-    $(link).attr({"download" : fileName, "href": url});
-    link.click();
-  }
-  
-  /**
    * @description convert data to csv in string type
    * @param data
    * @param headerList 
@@ -98,7 +84,13 @@ export class CSVDownloadService {
 
     str = this.convertToCSV(data, headerList, indexIncluded);
     console.log(str);
-    this.downloadFile(str, activity);
+
+    const link = document.createElement("a");
+    const fileName = activity + '.csv';
+    const blob = new Blob(["\uFEFF"+str], { type: 'text/csv; charset=utf-8'});
+    const url = URL.createObjectURL(blob);
+    $(link).attr({"download" : fileName, "href": url});
+    link.click();  
   }
 
   /**
@@ -131,6 +123,12 @@ export class CSVDownloadService {
     }
 
     console.log(str);
-    this.downloadFile(str, dictType);
+    
+    const link = document.createElement("a");
+    const fileName = dictType + '.csv';
+    const blob = new Blob(["\uFEFF"+str], { type: 'text/csv; charset=utf-8'});
+    const url = URL.createObjectURL(blob);
+    $(link).attr({"download" : fileName, "href": url});
+    link.click(); 
   }
 }

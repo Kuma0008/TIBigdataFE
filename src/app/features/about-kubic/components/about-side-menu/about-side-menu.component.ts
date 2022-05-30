@@ -1,5 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
+import {TranslateService} from '@ngx-translate/core';
 
 @Component({
   selector: "app-about-side-menu",
@@ -9,7 +10,8 @@ import { Router } from "@angular/router";
 export class AboutSideMenuComponent implements OnInit {
   private _title: string = "";
   private _currentMenu: string = "";
-  constructor(private router: Router) { }
+  constructor(private router: Router,
+              private translate: TranslateService) { }
 
   ngOnInit(): void {
     let url = this.router.url.split("/");
@@ -87,5 +89,28 @@ export class AboutSideMenuComponent implements OnInit {
   }
   public set title(value: string) {
     this._title = value;
+  }
+  public getTranslatedTitle(): string {
+    let translationTag = '';
+    switch (this.title) {
+      case '홈페이지소개': {
+        translationTag = 'about-side-menu.introduction';
+        break;
+      }
+      case '서비스안내': {
+        translationTag = 'about-side-menu.guide';
+        break;
+      }
+      case '수집정보': {
+        translationTag = 'about-side-menu.infoPolicy';
+        break;
+      }
+      case '회원정책': {
+        translationTag = 'about-side-menu.accountPolicy';
+        break;
+      }
+    }
+    return this.translate.instant(translationTag);
+
   }
 }

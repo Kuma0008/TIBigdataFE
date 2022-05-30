@@ -1,30 +1,30 @@
 <aside class="sidebar-container">
-  <h1>{{ title }}</h1>
+  <h1>{{ getTranslatedTitle() }}</h1>
   <div class="menus">
     <ul>
       <li
         [ngStyle]="selectedStyleObject(currentMenu == 'intro')"
         class="menu-item"
-        id="intro">
-        <a (click)="toSiteIntro()">사이트소개</a>
+        >
+        <a (click)="toSiteIntro()">{{'about-side-menu.introduction'|translate}}</a>
       </li>
       <li
         [ngStyle]="selectedStyleObject(currentMenu == 'service-guide')"
         class="menu-item"
-        id="service-guide">
-        <a (click)="toServiceGuide()">서비스안내</a>
+        >
+        <a (click)="toServiceGuide()">{{"about-side-menu.guide" | translate}}</a>
       </li>
       <li
         [ngStyle]="selectedStyleObject(currentMenu == 'collected-info')"
         class="menu-item"
-        id="collected-info">
-        <a (click)="toCollectedInfo()">수집정보</a>
+        >
+        <a (click)="toCollectedInfo()">{{'about-side-menu.infoPolicy' | translate}}</a>
       </li>
       <li
         [ngStyle]="selectedStyleObject(currentMenu == 'member-policy')"
         class="menu-item"
-        id="member-policy">
-        <a (click)="toMemberPolicy()">회원정책</a>
+        >
+        <a (click)="toMemberPolicy()">{{'about-side-menu.accountPolicy' | translate}}</a>
       </li>
     </ul>
   </div>

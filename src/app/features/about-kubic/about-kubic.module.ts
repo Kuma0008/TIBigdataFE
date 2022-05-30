@@ -8,6 +8,7 @@ import { CollectedInfoComponent } from "./components/collected-info/collected-in
 import { MemberPolicyComponent } from "./components/member-policy/member-policy.component";
 import { AboutSideMenuComponent } from "./components/about-side-menu/about-side-menu.component";
 import { SharedModule } from "src/app/shared/shared.module";
+import {TranslateModule} from '@ngx-translate/core';
 
 @NgModule({
   declarations: [
@@ -17,6 +18,6 @@ import { SharedModule } from "src/app/shared/shared.module";
     MemberPolicyComponent,
     AboutSideMenuComponent,
   ],
-  imports: [CommonModule, AboutKubicRoutingModule, SharedModule],
+    imports: [CommonModule, AboutKubicRoutingModule, SharedModule, TranslateModule],
 })
 export class AboutKubicModule {}

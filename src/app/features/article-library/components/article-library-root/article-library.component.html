@@ -1,14 +1,14 @@
 <div class="library-container">
   <section class="library">
     <div class="library-header">
-      <h1>자료열람</h1>
-      <button (click)="navToGraph()">통일연구 동향 그래프</button>
+      <h1>{{'article-library.library'|translate}}</h1>
+      <button (click)="navToGraph()">{{'article-library.trendChart'|translate}}</button>
     </div>
 
     <hr class="hr"/>
 
     <div class="selection-container topic-container">
-      <p>주제별</p>
+      <p>{{'article-library.byTopic'|translate}}</p>
       <div class="selection-buttons">
         <button
           *ngFor="let cat of categories; let i = index"
@@ -16,7 +16,7 @@
           id="topic"
           (click)="selectCategory($event)"
         >
-          {{ cat }}
+          {{ cat |translate}}
         </button>
       </div>
     </div>
@@ -24,10 +24,12 @@
     <hr class="hr"/>
 
     <div class="selection-container dict-container">
-      <p>사전편찬별</p>
+      <p>{{'article-library.lexicographic'|translate}}</p>
       <div class="selection-buttons">
         <button
           *ngFor="let cat of dict_orders_1"
+          [ngStyle]="selectedStyleObject(selectedDict === cat)"
+          id = "dict"
           (click)="selectCategory($event)"
         >
           {{ cat }}
@@ -38,7 +40,7 @@
     <hr class="hr"/>
 
     <div class="selection-container inst-container">
-      <p>기관별</p>
+      <p>{{'article-library.organization'|translate}}</p>
       <div class="selection-buttons institutions">
         <button
           *ngIf="institutionList !== undefined"
@@ -46,7 +48,7 @@
           id="inst"
           (click)="selectCategory($event, null)"
         >
-          전체  {{ totalSavedDocsNum }}
+          {{'전체'|translate}}  {{ totalSavedDocsNum }}
         </button>
         <button
           *ngFor="let inst of institutionList"

@@ -62,7 +62,7 @@ input[type="checkbox"] {
 
 .outline {
   border       : 1px solid #606060;
-  border-radius: 50px;
+  border-radius: 20px;
   width        : 100%;
   padding      : 40px 10%;
 }
@@ -72,18 +72,25 @@ input[type="checkbox"] {
   align-items    : center;
   white-space : nowrap;
   overflow-x : scroll;
-  width : 400px; //1024
-  margin-left : 7vw;//1024
+  width : 100%; //1024
+  //margin-left : 7vw;//1024
+  border : 1px solid #606060;
+  border-radius: 20px;
+  padding-top : 15px;
+  padding-left : 10px;
+  padding-bottom: 20px;
+  margin-top : 10.5px;
+  margin-bottom : 20px;
 }
 
-.keyword-group>div>button{
+.scroll{
   border : none;
   font-size : 17px;
   margin-left : 2px;
   margin-right: 9px;
   list-style-type: none;
   color : #7A7A7A;
-  border-bottom: 2px solid #0FBAFF;
+  border-bottom: 2px solid #52b9ff;
   border-radius: 0px !important;
 }
 
@@ -106,6 +113,7 @@ input[type="checkbox"] {
   background-size: 1.2em;
   padding: 0px 0px 0px 1.5em;
   font-size: 1.5rem;
+  float : right;
 }
 
 @media all and (max-width: 768px){

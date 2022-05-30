@@ -1,10 +1,14 @@
-import { Component, OnInit } from "@angular/core";
-import { NavigationEnd, Router } from "@angular/router";
-import {Observable, Subscription} from 'rxjs';
-import { SearchMode } from "src/app/core/enums/search-mode";
-import { AnalysisDatabaseService } from "src/app/core/services/analysis-database-service/analysis.database.service";
-import { ArticleService } from "src/app/core/services/article-service/article.service";
-import { ElasticsearchService } from "src/app/core/services/elasticsearch-service/elasticsearch.service";
+import {Component, OnInit} from '@angular/core';
+import {NavigationEnd, Router} from '@angular/router';
+import {Observable} from 'rxjs';
+import {SearchMode} from 'src/app/core/enums/search-mode';
+import {AnalysisDatabaseService} from 'src/app/core/services/analysis-database-service/analysis.database.service';
+import {ArticleService} from 'src/app/core/services/article-service/article.service';
+import {ElasticsearchService} from 'src/app/core/services/elasticsearch-service/elasticsearch.service';
+import {TranslateService} from '@ngx-translate/core';
+import {SortOption} from '../../../core/enums/serch-result-sort-option';
+
+// import { SearchResultFilterComponent } from '../../../features/search-result/components/search-result-filter/search-result-filter.component';
 
 @Component({
   selector: "app-search-bar",
@@ -26,10 +30,10 @@ export class SearchBarComponent implements OnInit {
   public relatedKeywords_mobile = [];
   private searchStatusChange$: Observable<boolean> = this.elasticsearchService.getSearchStatus();
   private _institutionList: Array<Object>;
-  private articleSubscriber: Subscription;
+  private _startDate: string = "0001-01-01";
+  private _endDate: string = "9000-12-31";
 
   private _dateList: Array<String> = [
-    "전체",
     "1일",
     "1주일",
     "1개월",
@@ -43,7 +47,7 @@ export class SearchBarComponent implements OnInit {
     "경제",
     "사회",
     "국제",
-    "IT_과학",
+    "IT과학",
     "스포츠",
     "문화",
   ];
@@ -66,19 +70,14 @@ export class SearchBarComponent implements OnInit {
 
   constructor(
     public _router: Router,
+    public translate: TranslateService,
     private elasticsearchService: ElasticsearchService,
     private articleService: ArticleService,
-    private analysisDatabaseService: AnalysisDatabaseService
+    private analysisDatabaseService: AnalysisDatabaseService,
   ) {
     this.searchStatusChange$.subscribe((status) => {
       if (status === true) this.setRelatedKeywords();
     });
-
-    // this.articleSubscriber = this.elasticsearchService
-    //   .getArticleChange()
-    //   .subscribe(() => {
-    //     this.loadInstitutions();
-    //   });
 
     this._router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
@@ -110,25 +109,89 @@ export class SearchBarComponent implements OnInit {
    * @description Update filter value.
    * @param date User selected value from filter.
    */
-  updateDate(date: string): void {
-    this.selectedDate = date;
+  selectDate(selectDate: string): void {
+    this.selectedDate = selectDate;
     this.isDateSelected = true;
+    let startTime: Date;
+    let endTime: Date;
+    let date = new Date();
+
+    switch (this.selectedDate) {
+      case "1일": {
+        endTime = new Date()
+        startTime = new Date(date.setDate(date.getDate() - 1));
+
+        this._startDate = toStringByFormatting(startTime);
+        this._endDate = toStringByFormatting(endTime);
+        break;
+      }
+
+      case "1주": {
+        endTime = new Date()
+        startTime = new Date(date.setDate(date.getDate() - 7));
+
+        this._startDate = toStringByFormatting(startTime);
+        this._endDate = toStringByFormatting(endTime);
+        break;
+      }
+
+      case "1개월": {
+        endTime = new Date()
+        startTime = new Date(date.setMonth(date.getMonth() - 1));
+
+        this._startDate = toStringByFormatting(startTime);
+        this._endDate = toStringByFormatting(endTime);
+        break;
+      }
+
+      case "3개월": {
+        endTime = new Date()
+        startTime = new Date(date.setMonth(date.getMonth() - 3));
+
+        this._startDate = toStringByFormatting(startTime);
+        this._endDate = toStringByFormatting(endTime);
+        break;
+      }
+
+      case "6개월": {
+        endTime = new Date()
+        startTime = new Date(date.setMonth(date.getMonth() - 6));
+
+        this._startDate = toStringByFormatting(startTime);
+        this._endDate = toStringByFormatting(endTime);
+        break;
+      }
+
+      case "1년": {
+        endTime = new Date()
+        startTime = new Date(date.setFullYear(date.getFullYear() - 1));
+
+        this._startDate = toStringByFormatting(startTime);
+        this._endDate = toStringByFormatting(endTime);
+        break;
+      }
+
+      function toStringByFormatting(source, delimiter = '-') {
+        const year = source.getFullYear();
+        const month = leftPad(source.getMonth() + 1);
+        const day = leftPad(source.getDate());
+        return [year, month, day].join(delimiter);
+      }
+
+      function leftPad(value) {
+        if (value >= 10) {
+          return value;
+        }
+        return `0${value}`;
+      }
+    }
   }
 
   /**
    * @description Update filter value.
    * @param date User selected value from filter.
    */
-  updateInst(inst: string): void {
-    this.selectedInst = inst;
-    this.isInstSelected = true;
-  }
-
-  /**
-   * @description Update filter value.
-   * @param date User selected value from filter.
-   */
-  updateTopic(topic: string): void {
+  selectTopic(topic: string): void {
     this.selectedTopic = topic;
     this.isTopicSelected = true;
   }
@@ -145,6 +208,16 @@ export class SearchBarComponent implements OnInit {
    * @description Reset filter selection by reloading component.
    */
   resetFilters(): void {
+    this._startDate = "0001-01-01";
+    this._endDate = "9000-12-31";
+    this.elasticsearchService.setSelectedDate(this._startDate, this._endDate);
+
+    this.selectedInst = "";
+    this.elasticsearchService.setSelectedInst(this.selectedInst);
+
+    this.selectedTopic = "false";
+    this.elasticsearchService.setTopicHashKeys([]);
+
     this.ngOnInit();
   }
 
@@ -152,11 +225,30 @@ export class SearchBarComponent implements OnInit {
    * @description set search configuration and navigate to search result page.
    */
   async search(): Promise<void> {
+
+    if(this.isDateSelected == true)
+      this.elasticsearchService.setSelectedDate(this._startDate, this._endDate);
+    if(this.isInstSelected == true)
+      this.elasticsearchService.setSelectedInst(this.selectedInst);
+    if(this.isTopicSelected == true){
+      this.articleService.clearList();
+      let hashKeys = await this.getDocIDsFromTopic(this.selectedTopic);
+      let ids: string[] = [];
+      hashKeys.map((e) =>
+        ids.push(e["hash_key"])
+      );
+      this.elasticsearchService.setTopicHashKeys(ids);
+    }
+
     this.elasticsearchService.setSearchMode(SearchMode.KEYWORD);
     this.elasticsearchService.setSearchStatus(false);
     this.elasticsearchService.searchKeyword(this.searchKeyword);
     this.elasticsearchService.setCurrentSearchingPage(1);
     this._router.navigateByUrl("/search/result");
+  }
+
+  async getDocIDsFromTopic(category) {
+    return (await this.analysisDatabaseService.getOneTopicDocs(category)) as [];
   }
 
   gotoMain(): void {
@@ -204,24 +296,24 @@ export class SearchBarComponent implements OnInit {
     this.relatedKeywords = [];
     this.relatedKeywords_mobile = [];
     await this.analysisDatabaseService
-      .getTfidfVal(this.articleService.getList())
+      .getCountVal(this.articleService.getList())
       .then((res) => {
         let data = res as [];
         for (let n = 0; n < data.length; n++) {
-          let tfVal = data[n]["tfidf"];
+          let coVal = data[n]["count"];
           if (
             this.relatedKeywords.length < 6 &&
-            tfVal[0] !== this.searchKeyword &&
-            !this.relatedKeywords.includes(tfVal[0])
+            coVal[0] !== this.searchKeyword &&
+            !this.relatedKeywords.includes(coVal[0])
           )
-            this.relatedKeywords.push(tfVal[0]);
+            this.relatedKeywords.push(coVal[0]);
           /*mobile relatedKeywords_mobile*/
           if (
             this.relatedKeywords_mobile.length < 4 &&
-            tfVal[0] !== this.searchKeyword &&
-            !this.relatedKeywords_mobile.includes(tfVal[0])
+            coVal[0] !== this.searchKeyword &&
+            !this.relatedKeywords_mobile.includes(coVal[0])
           )
-            this.relatedKeywords_mobile.push(tfVal[0]);
+            this.relatedKeywords_mobile.push(coVal[0]);
         }
       });
     this.isKeyLoaded = true;
@@ -287,6 +379,7 @@ export class SearchBarComponent implements OnInit {
     return this._selectedDate;
   }
   public set selectedDate(value: string) {
+
     this._selectedDate = value;
   }
   public get searchKeyword(): string {
@@ -311,11 +404,8 @@ export class SearchBarComponent implements OnInit {
   }
 
   selectInst(inst: { key: string; doc_num: number }) {
-    this.isInstSelected = true;
     this.selectedInst = inst.key;
-    this.elasticsearchService.setSearchMode(SearchMode.INST);
-    this.elasticsearchService.setSelectedInst(inst.key);
-    this.elasticsearchService.triggerSearch(1);
+    this.isInstSelected = true;
   }
 
 }

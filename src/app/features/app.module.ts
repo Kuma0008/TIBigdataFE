@@ -23,7 +23,7 @@ import { OpenApiModule } from "./open-api/open-api.module";
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import {ArticleLibraryComponent} from './article-library/components/article-library-root/article-library.component';
-
+import {SearchBarComponent} from '../shared/component/search-bar/search-bar.component';
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -56,7 +56,7 @@ export function createTranslateLoader(http: HttpClient) {
     OpenApiModule,
   ],
   exports: [],
-  providers: [AuthGuard, AuthenticationService, TokenInterceptorService, ArticleLibraryComponent],
+  providers: [AuthGuard, AuthenticationService, TokenInterceptorService, ArticleLibraryComponent, SearchBarComponent],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

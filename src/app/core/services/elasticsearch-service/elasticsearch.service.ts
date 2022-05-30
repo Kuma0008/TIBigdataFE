@@ -1,12 +1,12 @@
-import { Injectable } from "@angular/core";
-import * as elasticsearch from "elasticsearch-browser";
-import { Client } from "elasticsearch-browser";
-import { BehaviorSubject, Observable } from "rxjs";
-import { SearchMode } from "src/app/core/enums/search-mode";
-import { SortOption } from "src/app/core/enums/serch-result-sort-option";
-import { ArticleSource } from "src/app/core/models/article.model";
-import { IpService } from "src/app/core/services/ip-service/ip.service";
-import { ElasticSearchQueryModel } from "../../models/elasticsearch.service.query.model";
+import {Injectable} from '@angular/core';
+import * as elasticsearch from 'elasticsearch-browser';
+import {Client} from 'elasticsearch-browser';
+import {BehaviorSubject, Observable} from 'rxjs';
+import {SearchMode} from 'src/app/core/enums/search-mode';
+import {SortOption} from 'src/app/core/enums/serch-result-sort-option';
+import {ArticleSource} from 'src/app/core/models/article.model';
+import {IpService} from 'src/app/core/services/ip-service/ip.service';
+import {ElasticSearchQueryModel} from '../../models/elasticsearch.service.query.model';
 
 @Injectable({
   providedIn: "root",
@@ -31,19 +31,27 @@ export class ElasticsearchService {
   private currentSearchingPage: number = 1;
 
   //new
-  private startTime: string = null;
-  private endTime: string = null;
+  private startDate: string = "0001-01-01";
+  private endDate: string = "9000-12-31";
   private mustKeyword: string = "";
   private mustNotKeyword: string = "";
+  private firstChar = "";
+  private topicHashKeys : string[] = [];
+  private doctype: string = null;
 
 
   constructor(
     private ipSvc: IpService,
     private esQueryModel: ElasticSearchQueryModel
   ) {
+    this.resetSearchFilterValue();
     if (!this.client) {
       this._connect();
     }
+  }
+
+  resetSearchFilterValue() {
+
   }
 
   /**
@@ -134,8 +142,25 @@ export class ElasticsearchService {
    * @param hashKeys
    */
   setHashKeys(hashKeys: string[]): void {
-    this.esQueryModel.setSearchHashKeys(hashKeys);
     this.hashKeys = hashKeys;
+    this.esQueryModel.setSearchHashKeys(this.hashKeys);
+  }
+
+  /**s
+   * @description Send query to get information of Search history
+   * @param string: index name => search_log-<year>.<month>
+   */
+  getSearchHistory(index: string): Promise<any> {
+    return this.client.count({
+      index: index,
+      body: {
+        query: {
+          match: {
+            search_word: this.getKeyword(),
+          },
+        },
+      }
+    });
   }
 
   /**
@@ -225,11 +250,53 @@ export class ElasticsearchService {
     });
   }
 
+  countByFilter(): Promise<any> {
+    return this.client.count({
+      index: this.ipSvc.ES_INDEX,
+      body: this.getSearchCountFilterQuery(),
+    });
+  }
+
+  countByLibrary(): Promise<any> {
+    return this.client.count({
+      index: this.ipSvc.ES_INDEX,
+      body: {
+        query: {
+          bool: {
+            must: [
+              this.getHashKeyQuery(),
+              this.getInstQuery(),
+              this.getDictionaryQuery(),
+            ]
+          }
+        },
+      }
+    });
+  }
+
   /**
    * @description Update number of articles for all subscribers.
    */
   countByTextComplete(): void {
     this.countByText().then((articleNum) =>
+      this.articleNum.next(articleNum.count)
+    );
+  }
+
+  countByFilterComplete(): void {
+    this.countByFilter().then((articleNum) =>
+      this.articleNum.next(articleNum.count)
+    );
+  }
+
+  countByBarComplete(): void {
+    this.countByFilter().then((articleNum) =>
+      this.articleNum.next(articleNum.count)
+    );
+  }
+
+  countByLibraryComplete(): void {
+    this.countByLibrary().then((articleNum) =>
       this.articleNum.next(articleNum.count)
     );
   }
@@ -332,6 +399,7 @@ export class ElasticsearchService {
     this.esQueryModel.setSortOption(this.sortOption);
     let searchMode = this.getSearchMode();
     this.setCurrentSearchingPage(selectedPageNum);
+
     if (searchMode === SearchMode.ALL) {
       this.allSearchComplete((selectedPageNum - 1) * this.getNumDocsPerPage());
       this.allCountComplete();
@@ -350,15 +418,223 @@ export class ElasticsearchService {
         (selectedPageNum - 1) * this.getNumDocsPerPage()
       );
       this.countByInstComplete();
-    } else if (searchMode === SearchMode.DATE) {
-      this.searchByDateComplete(
+    } else if (searchMode === SearchMode.FILTER) {
+      this.searchBySearchFilterComplete(
         (selectedPageNum - 1) * this.getNumDocsPerPage()
       );
-    } else if (searchMode === SearchMode.KEYWORDOPTION) {
-      this.fullTextOptionSearchComplete(
+      this.countByFilterComplete();
+    } else if (searchMode === SearchMode.LIBRARY) {
+      this.searchByLibraryComplete(
         (selectedPageNum - 1) * this.getNumDocsPerPage()
       );
+      this.countByLibraryComplete();
     }
+  }
+
+  searchBySearchFilterComplete(startIndex?: number) {
+    if (startIndex < 0) startIndex = 0;
+    this.saveSearchResult(this.triggerSearchFilter(startIndex));
+  }
+
+  triggerSearchFilter(startIndex?: number, docSize?: number): void {
+    // console.log("--------es start---------")
+    // console.log(this.startDate)
+    // console.log(this.endDate)
+    // console.log(this.selectedInst)
+    // console.log(this.hashKeys.length)
+    // console.log(this.mustKeyword)
+    // console.log(this.mustNotKeyword)
+    // console.log(this.keyword)
+    // console.log(this.doctype)
+    // console.log("--------es end---------")
+
+    if (!startIndex) startIndex = 0;
+    if (!docSize) docSize = this.numDocsPerPage;
+
+    return this.client.search({
+      index: this.ipSvc.ES_INDEX,
+      from: startIndex,
+      size: docSize,
+      filterPath: this.esQueryModel.getFilterPath(),
+      body: this.getSearchFilterQuery(),
+      _source: this.esQueryModel.getSearchSource(),
+    });
+  }
+
+  getSearchCountFilterQuery(){
+    return {
+      query: {
+        bool: {
+          must : this.getKeywordQuery(),
+          filter: {
+            bool: {
+              must: [
+                this.getHashKeyQuery(),
+                this.getInstQuery(),
+                this.getDateQuery(),
+                this.getKeywordOption(),
+                this.getDoctypeQuery(),
+              ]
+            }
+          }
+        }
+      },
+    };
+  }
+
+  getSearchFilterQuery(){
+    return {
+      query: {
+        bool: {
+          must : this.getKeywordQuery(),
+          filter: {
+            bool: {
+              must: [
+                this.getHashKeyQuery(),
+                this.getInstQuery(),
+                this.getDateQuery(),
+                this.getKeywordOption(),
+                this.getDoctypeQuery(),
+              ]
+            }
+          }
+        }
+      },
+      sort: [this.esQueryModel.getSortOption()],
+    };
+  }
+
+
+  getKeywordOption(){
+    if(this.mustKeyword == "") {
+      return {
+        bool: {
+          must_not:
+            {
+              multi_match: {
+                query: this.mustNotKeyword,
+                fields: ["post_title", "file_extracted_content", "post_body"],
+              }
+            }
+        }
+      };
+    }
+    else{
+      return {
+        bool: {
+          must:
+            {
+              multi_match: {
+                query: this.mustKeyword,
+                fields: ["post_title", "file_extracted_content", "post_body"],
+              }
+            },
+          must_not:
+            {
+              multi_match: {
+                query: this.mustNotKeyword,
+                fields: ["post_title", "file_extracted_content", "post_body"],
+              }
+            }
+        }
+      };
+    }
+  }
+
+  getInstQuery(){
+    if(this.selectedInst == "" || this.selectedInst == null){
+      return {
+        bool: {
+          must: {
+            exists: {
+              field: "published_institution"
+            }
+          }
+        }
+      };
+    }else{
+      return {
+        match_phrase: {
+          published_institution : this.selectedInst
+        }
+      };
+    }
+  }
+
+  getHashKeyQuery(){
+    if(this.topicHashKeys.length == 0){
+      return {
+        bool: {
+          must: {
+            exists: {
+              field: "hash_key"
+            }
+          }
+        }
+      };
+    }else{
+      return {
+        terms: {
+          hash_key: this.topicHashKeys
+        }
+      };
+    }
+  }
+
+  getDoctypeQuery(){
+    if(this.doctype == null || this.doctype == ""){
+      return {
+        bool: {
+          must: {
+            exists: {
+              field: "doc_type"
+            }
+          }
+        }
+      };
+    }else{
+      return {
+        match: {
+          doc_type: this.doctype
+        }
+      };
+    }
+  }
+
+  getDateQuery(){
+    return {
+      bool: {
+        should: [
+          {
+            range: {
+              post_date: {
+                gte: this.startDate,
+                lt: this.endDate,
+                format: "yyyy-MM-dd"
+              }
+            },
+          },
+          {
+            bool: {
+              must_not: {
+                exists: {
+                  field: "post_date"
+                }
+              }
+            }
+          }
+        ]
+      }
+    };
+  }
+
+  getKeywordQuery(){
+    return {
+      multi_match: {
+        query: this.keyword,
+        fields: ["post_title", "file_extracted_content", "post_body"],
+      },
+    };
   }
 
   /**
@@ -396,13 +672,46 @@ export class ElasticsearchService {
       body: {
         size: 0,
         aggs: {
-          count: { terms: { field: "published_institution.keyword" } },
+          count: { terms: {
+            field: "published_institution.keyword",
+              size: 20
+          } },
         },
         query: {
           multi_match: {
             query: this.keyword,
             fields: ["post_title", "file_extracted_content", "post_body"],
           },
+        },
+      },
+    });
+  }
+
+  async getDoctypeWithTextSearch(): Promise<any> {
+    return await this.client.search({
+      index: this.ipSvc.ES_INDEX,
+      body: {
+        aggs: {
+          count: {
+            terms: {
+              field: "doc_type.keyword",
+            } },
+        },
+        query: {
+          bool: {
+            must : this.getKeywordQuery(),
+            filter: {
+              bool: {
+                must: [
+                  this.getHashKeyQuery(),
+                  this.getInstQuery(),
+                  this.getDateQuery(),
+                  this.getKeywordOption(),
+                  this.getDoctypeQuery(),
+                ]
+              }
+            }
+          }
         },
       },
     });
@@ -418,7 +727,10 @@ export class ElasticsearchService {
       body: {
         size: 0,
         aggs: {
-          count: { terms: { field: "published_institution.keyword" } },
+          count: { terms: {
+            field: "published_institution.keyword",
+            size: 20
+          } },
         },
       },
     });
@@ -439,6 +751,48 @@ export class ElasticsearchService {
             published_institution: this.selectedInst,
           },
         },
+      },
+      _source: this.esQueryModel.getSearchSource(),
+    });
+  }
+
+  getDictionaryQuery(){
+    if(this.firstChar == "" || this.firstChar == null){
+      return {
+        bool: {
+          must: {
+            exists: {
+              field: "first_char_title"
+            }
+          }
+        }
+      };
+    }else{
+      return {
+        match_phrase: {
+          first_char_title : this.firstChar,
+        }
+      };
+    }
+  }
+
+  searchByLibrary(startIndex?: number, docSize?: number): Promise<any> {
+    if (!startIndex) startIndex = 0;
+    return this.client.search({
+      index: this.ipSvc.ES_INDEX,
+      from: startIndex,
+      size: this.numDocsPerPage,
+      body: {
+        query: {
+          bool: {
+            must: [
+              this.getHashKeyQuery(),
+              this.getInstQuery(),
+              this.getDictionaryQuery(),
+            ]
+          }
+        },
+        sort: [this.esQueryModel.getSortOption()],
       },
       _source: this.esQueryModel.getSearchSource(),
     });
@@ -533,8 +887,16 @@ export class ElasticsearchService {
 
   //new
   setSelectedDate(startTime: string, endTime: string) {
-    this.startTime = startTime;
-    this.endTime = endTime;
+    this.startDate = startTime;
+    this.endDate = endTime;
+  }
+
+  setDoctype(doctype: string){
+    this.doctype = doctype;
+  }
+
+  getDoctype(): string{
+    return this.doctype;
   }
 
   searchByDateComplete(startIndex?: number) {
@@ -550,8 +912,8 @@ export class ElasticsearchService {
         query: {
           range: {
             post_date: {
-              gt: this.startTime,
-              lt: this.endTime,
+              gt: this.startDate,
+              lt: this.endDate,
               format: "yyyy-MM-dd"
             }
           },
@@ -574,15 +936,46 @@ export class ElasticsearchService {
   searchByTextOption(startIndex?: number, docSize?: number): Promise<any> {
     if (!startIndex) startIndex = 0;
     if (!docSize) docSize = this.numDocsPerPage;
-    this.esQueryModel.setSelectedKeyword(this.mustKeyword, this.mustNotKeyword);
 
     return this.client.search({
       index: this.ipSvc.ES_INDEX,
       from: startIndex,
       size: docSize,
       filterPath: this.esQueryModel.getFilterPath(),
-      body: this.esQueryModel.getSearchDocsWithTextOption(),
+      body: {
+        post_filter: {
+          bool: {
+            must:
+              {
+                multi_match: {
+                  query: this.mustKeyword,
+                  fields: ["post_title", "file_extracted_content", "post_body"],
+                }
+              },
+            must_not:
+              {
+                multi_match: {
+                  query: this.mustNotKeyword,
+                  fields: ["post_title", "file_extracted_content", "post_body"],
+                }
+              }
+          }
+        },
+      },
       _source: this.esQueryModel.getSearchSource(),
     });
   }
+
+  setFirstChar(firstChar: string) {
+    this.firstChar = firstChar;
+  }
+
+  searchByLibraryComplete(startIndex?: number) {
+    this.saveSearchResult(this.searchByLibrary(startIndex));
+  }
+
+  setTopicHashKeys(hashKeys: string[]): void {
+    this.topicHashKeys = hashKeys;
+  }
 }
+

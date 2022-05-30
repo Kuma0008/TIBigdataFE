@@ -43,11 +43,26 @@
 }
 
 .chart-wrapper {
-  margin-top   : 20px;
   border-radius: 25px;
-  border       : 1px solid #52b9ff;
-  padding      : 5% 10%;
+  border       : 1px solid lightgrey;
+  margin       : auto;
+  padding : 0;
+  width : 350px;
+  height: 350px;
+}
+
+.svg-content-responsive {
+  justify-content: center;
+  align-items: center;
+  border-radius: 25px;
+  border       : 1px solid lightgrey;
+  padding      : 0% 0% 0% 0%;
   margin       : 0% 20%;
+  width : 100%;
+  display: inline-block;
+  position: absolute;
+  top: 10px;
+  left: 0;
 }
 
 h1 {
@@ -95,14 +110,13 @@ h1 {
     height               : 100%;
   }
 
+  .svg-content-responsive {
+    height: 50%;
+  }
+
   .header{
     font-size: 1em !important;
   }
-
-  .chart-wrapper {
-    margin       : 0% 10%;
-  }
-
   .save-graph-button {
     font-size : 1.2rem;
   }

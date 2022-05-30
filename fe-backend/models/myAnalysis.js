@@ -5,7 +5,6 @@ const chartSchema = new Schema({
   keyword: String,
   savedDate: Date,
   analysisDate: Date,
-  //analysisDate: String,
   chartImg: String,
   activity: String,
   option1: String,

@@ -16,7 +16,6 @@ export class MemberInfoComponent implements OnInit {
   ) {
     this.authenticationService.getCurrentUserChange().subscribe((currentUser) => {
       this.userProfile = currentUser;
-      console.log(this.userProfile);
     });
 
   }

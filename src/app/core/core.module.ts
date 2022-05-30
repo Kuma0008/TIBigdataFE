@@ -14,8 +14,10 @@ import { IpService } from "./services/ip-service/ip.service";
 import { PaginationService } from "./services/pagination-service/pagination.service";
 import { UserSavedDocumentService } from "./services/user-saved-document-service/user-saved-document.service";
 import { WordcloudService } from "./services/wordcloud-service/wordcloud.service";
-import { CSVDownloadService } from "./services/csv-download-service/csv-download.service";
 import {TranslateModule} from '@ngx-translate/core';
+import { CSVDownloadService } from "./services/csv-download-service/csv-download.service";
+
+
 
 
 // Google API ID

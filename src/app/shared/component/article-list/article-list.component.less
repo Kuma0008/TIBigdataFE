@@ -45,7 +45,7 @@ hr {
   align-items        : flex-start;
   border             : 1px solid gray;
   background-size    : 0.8em;
-  background-position: right 1rem center;
+  background-position: right 0.6rem center;
   background-repeat  : no-repeat;
   width              : 9.5rem;
   padding            : 1em 0em 1em 1em;
@@ -72,6 +72,15 @@ hr {
 
 .result-count {
   align-self: flex-end;
+  display: flex;
+}
+
+.result-count>button {
+  margin: 0 4px;
+  border: none;
+  background: #52b9ff;
+  color : white;
+  font-weight : bold ;
 }
 
 .dropdown-menus {
@@ -128,6 +137,7 @@ label {
 }
 
 .article {
+  background: gray;
   width      : 100%;
   display    : flex;
   white-space: nowrap;
@@ -140,10 +150,18 @@ label {
 .article-info-container {
   width      : 100%;
   margin-left: 20px;
+  padding-right: 30px;
+  margin-bottom : -36px;
+  padding-top : 20px;
 }
 
 .result-count-tablet{
   display: none;
+}
+
+hr.sep{
+  width : 98%;
+  background : #c2c2c2;
 }
 
 @media (max-width: 768px) {
@@ -156,9 +174,18 @@ label {
   }
 
   .result-count-tablet{
-    display: block;
+    display: flex;
     margin-top: 2px;
     margin-bottom: 2px;
+  }
+
+  .result-count-tablet>button {
+    margin: 0 4px;
+    border: none;
+    background: #52b9ff;
+    color : white;
+    font-weight : bold ;
+    font-size : 2vw;
   }
 
   .dropdown-menus{
@@ -184,6 +211,10 @@ label {
     width              : 6.5rem;
     padding            : 0.5em 0em 0.5em 0.8em;
     font-size          : 1rem;
+  }
+
+  .mydoc {
+    left : 30px;
   }
 }
 

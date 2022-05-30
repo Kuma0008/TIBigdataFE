@@ -3,20 +3,20 @@
   <div class="footer-contents">
 
     <div class="handong-logo">
-    <img src="../../../../assets/logos/handong_logo.png" />
+      <img src="../../../../assets/logos/handong_logo.png" width=130 />
+      <img src="../../../../assets/icons/unikorea.jpg" width=135 />
     </div>
       <div class="policy">
       <ul>
-        <li><a href="./about/member-policy">이용약관</a></li>
-        <li><a href="./about/collected-info">개인정보처리방침</a></li>
-        <li><a>이메일무단수집거부</a></li>
-        <li><a>사이트맵</a></li>
+        <li><a (click)="toMemberPolicy()">{{'footer.Terms'|translate}}</a></li>
+        <li><a (click)="toCollectedInfo()">{{'footer.privacyRule'|translate}}</a></li>
+        <li><a (click)="toServiceGuide()">서비스안내</a></li>
       </ul>
     </div>
 
     <div class="contact">
       <ul class="contact-info">
-        <li>경상북도 포항시 북구 흥해읍 한동로 558</li>
+        <li>{{'footer.address' | translate}}</li>
         <li><a href="tel:+82542601515">054-260-3058</a></li>
         <li><a href="mailto:kubic@handong.edu">kubic@handong.edu</a></li>
       </ul>
@@ -28,6 +28,7 @@
 
     <div class="handong-logo-mobile">
       <img src="../../../../assets/logos/handong_logo.png" />
+      <img src="../../../../assets/icons/unikorea.jpg"/>
     </div>
 
   </div>

@@ -8,19 +8,23 @@ import { SearchResultFilterComponent } from "./components/search-result-filter/s
 import { ReadArticle } from "./components/read-article/read-article.component";
 import { SharedModule } from "src/app/shared/shared.module";
 import { SearchResultComponent } from "./components/search-result/search-result.component";
+import { KeywordAnalysisComponent } from './components/keyword-analysis/keyword-analysis.component';
+import {TranslateModule} from '@ngx-translate/core';
 
 @NgModule({
   declarations: [
     SearchResultComponent,
     SearchResultFilterComponent,
     ReadArticle,
+    KeywordAnalysisComponent,
   ],
-  imports: [
-    CommonModule,
-    SearchRoutingModule,
-    FormsModule,
-    TagCloudModule,
-    SharedModule,
-  ],
+    imports: [
+        CommonModule,
+        SearchRoutingModule,
+        FormsModule,
+        TagCloudModule,
+        SharedModule,
+        TranslateModule,
+    ],
 })
 export class SearchResultModule { }

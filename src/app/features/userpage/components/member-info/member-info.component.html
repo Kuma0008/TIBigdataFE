@@ -1,12 +1,12 @@
 <div class="outline">
   <div>
-    <h2>{{ userProfile.name }} 님의 회원정보입니다.</h2>
+    <h2>{{ userProfile.name }}{{'userpage.ThisisAccountInfo'|translate}}</h2>
     <br />
-    <p>이름 : {{ userProfile.name }}</p>
+    <p>{{'userpage.name:'|translate}}{{ userProfile.name }}</p>
     <br />
-    <p>이메일 : {{ userProfile.email }}</p>
+    <p>{{'userpage.email:'|translate}}{{ userProfile.email }}</p>
     <br />
-    <p>기관 : {{ userProfile.inst }}</p>
+    <p>{{'userpage.institution:'|translate}}{{ userProfile.inst }}</p>
     <br />
   </div>
 </div>

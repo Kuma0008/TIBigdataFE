@@ -1,4 +1,4 @@
-<h3>글쓰기</h3>
+<h3>{{'community-board.write'|translate}}</h3>
 <hr />
 <form (ngSubmit)="saveNewDocument()" class="inputs" [formGroup]="boardForm">
   <input
@@ -17,7 +17,7 @@
         name="isMain"
         id="isMain"
       />
-      <label class="is-main-checkbox" for="isMain"> 상단 공지 노출</label>
+      <label class="is-main-checkbox" for="isMain">{{'community-board.document-modify.상단공지노출'}}</label>
     </div>
     <div *ngIf="selectedBoard === 'faq'" class="faq-radios">
       <input
@@ -28,7 +28,7 @@
         value="오류보고"
         checked
       />
-      <label class="category-radio" for="error">오류보고</label>
+      <label class="category-radio" for="error">{{'community-board.document-modify.troubleShooting'|translate}}</label>
       <input
         formControlName="category"
         type="radio"
@@ -36,7 +36,7 @@
         id="data"
         value="데이터"
       />
-      <label class="category-radio" for="data"> 데이터</label>
+      <label class="category-radio" for="data"> {{'community-board.document-modify.data'|translate}}</label>
       <input
         formControlName="category"
         type="radio"
@@ -44,7 +44,7 @@
         id="membership"
         value="회원관련"
       />
-      <label class="category-radio" for="membership">회원관련</label>
+      <label class="category-radio" for="membership">{{'community-board.document-modify.aboutUser'|translate}}</label>
       <input
         formControlName="category"
         type="radio"
@@ -52,7 +52,7 @@
         id="etc"
         value="기타"
       />
-      <label class="category-radio" for="etc">기타</label>
+      <label class="category-radio" for="etc">{{'community-board.document-modify.기타'|translate}}</label>
     </div>
   </div>
 
@@ -64,7 +64,7 @@
   ></textarea>
 
   <div class="buttons">
-    <button type="button" class="button-list" (click)="gotoList()">취소</button>
+    <button type="button" class="button-list" (click)="gotoList()">{{'취소'|translate}}</button>
     <input
       type="submit"
       class="button-write"

@@ -1,17 +1,23 @@
-<div class="folder-menu">
-  <button
-    class="folder"
-    (click)="openModal()"
-    id="logout-button"
-  >폴더편집</button>
-</div>
+
 <form *ngIf="!isSavedKeywordsEmpty" [formGroup]="form" novalidate>
   <section *ngIf="isSavedKeywordsLoaded" class="keyword-group">
     <div *ngFor="let key of savedKeywords; index as idx">
-      <button (click)="currentKeywordAndDate(key.keyword,key.savedDate)">{{ key.keyword }} {{ parsingSavedDate(key.savedDate) }}</button>
+      <button
+        class="scroll"
+        id = "scroll-width"
+        (click)="currentKeywordAndDate(key.keyword,key.savedDate)">{{ key.keyword }} {{ parsingSavedDate(key.savedDate) }}</button>
+    </div>
+    <div class="folder-menu">
+      <button
+        class="folder"
+        (click)="openModal()"
+        id="logout-button"
+      >{{'userpage.EditFolder'|translate}}</button>
     </div>
   </section>
+
 </form>
+
 <div class="outline">
 <form *ngIf="!isSavedDocsEmpty" [formGroup]="form" novalidate>
   <div class="upside">
@@ -22,12 +28,12 @@
           type="checkbox"
           (change)="onCheckboxChange($event)"
           value="toggleAll"
-        />전체선택
+        />{{'전체선택'|translate}}
       </label>
     </div>
     <div *ngIf="!isSavedDocsEmpty" class="upside3">
-      <button (click) = "deleteSelectedDocs()">선택삭제</button>
-      <button (click)="deleteAllMyDocs()">전체삭제</button>
+      <button (click) = "deleteSelectedDocs()">{{'선택삭제'|translate}}</button>
+      <button (click)="deleteAllMyDocs()">{{'전체삭제'|translate}}</button>
     </div>
   </div>
   <br />
@@ -44,7 +50,8 @@
         />
         <!-- <input class="checkbox" type="checkbox" id="{{ idx }}" /> -->
         <label>
-          <a (click)="openDocDetail(doc.hashKey,doc.title)">{{ doc["title"] }}</a>
+          <a *ngIf="doc['doc_type'] == 'paper'" (click)="openDocDetail(doc.hashKey,doc.title)">{{ doc["title"] }}</a>
+          <a *ngIf="doc['doc_type'] == 'news'" >{{ doc["title"] }}</a>
         </label>
       </li>
     </ul>

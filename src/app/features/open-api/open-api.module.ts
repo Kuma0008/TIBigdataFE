@@ -8,6 +8,7 @@ import { GotoapiComponent } from "./components/gotoapi/gotoapi.component";
 import { OpenApiMenuComponent } from "./components/open-api-menu/open-api-menu.component";
 import { SharedModule } from "src/app/shared/shared.module";
 import { RegisterComponent } from "./components/register/register.component";
+import {TranslateModule} from '@ngx-translate/core';
 
 @NgModule({
   declarations: [
@@ -17,6 +18,6 @@ import { RegisterComponent } from "./components/register/register.component";
     OpenApiMenuComponent,
     RegisterComponent
   ],
-  imports: [CommonModule, OpenApiRoutingModule, SharedModule],
+    imports: [CommonModule, OpenApiRoutingModule, SharedModule, TranslateModule],
 })
 export class OpenApiModule {}

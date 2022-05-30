@@ -9,10 +9,10 @@
         <ul class="common-menu">
           <li
             [ngStyle]="selectedStyleObject(getSelectedMenu() == 'library')">
-            <a (click)="navigateLibrary()">자료열람</a>
+            <a i18n="library" (click)="navigateLibrary()">{{ 'navbar.library' | translate }}</a>
           </li>
-          <li [ngStyle]="selectedStyleObject(getSelectedMenu() == 'analysis')">
-            <a (click)="navigateSpecials()">자료분석</a>
+          <li [ngStyle]="selectedStyleObject(getSelectedMenu() == 'analysis-menu')">
+            <a (click)="navigateSpecials()">{{'navbar.analysis' | translate}}</a>
           </li>
           <li
             [ngStyle]="selectedStyleObject(getSelectedMenu() == 'community')"
@@ -20,9 +20,9 @@
           >
 <!--common-->
             <div class="dropdown-container">
-              <a (click)="toCommunity()">커뮤니티</a>
+              <a (click)="toAnnouncement()">{{'navbar.community' | translate}}</a>
               <ul class="community-dropdown-menu">
-                <li><a (click)="toAnnouncement()">공지사항</a></li>
+                <li><a (click)="toAnnouncement()">{{'navbar.community'|translate}}</a></li>
                 <li><a (click)="toFaq()">FAQ</a></li>
                 <li><a (click)="toCommunity()">Q&A</a></li>
               </ul>
@@ -31,11 +31,11 @@
             <div class="dropdown-container-tablet">
               <a
                 (click)="clickDropDownCommunity()"
-                class="dropdown-community">커뮤니티</a>
+                class="dropdown-community">{{'navbar.community' | translate}}</a>
               <ul [ngClass]="isDropDownCommunity ? 'about-dropdown-menu-tablet' : 'about-dropdown-menu-tablet no'">
                 <li><a
                   [ngStyle]="selectedStyleObject(getSelectedSubMenu() === 'announcement')"
-                  (click)="toAnnouncement()">공지사항</a></li>
+                  (click)="toAnnouncement()">{{'공지'|translate}}</a></li>
                 <li><a
                   [ngStyle]="selectedStyleObject(getSelectedSubMenu() === 'faq')"
                   (click)="toFaq()">FAQ</a></li>
@@ -52,36 +52,36 @@
           >
             <!--common-->
             <div class="dropdown-container">
-              <a>홈페이지소개</a>
+              <a (click)="toSiteIntro()">{{'navbar.aboutUs'|translate}}</a>
               <ul class="about-dropdown-menu">
-                <li><a (click)="toSiteIntro()">사이트소개</a></li>
-                <li><a (click)="toServiceGuide()">서비스안내</a></li>
-                <li><a (click)="toCollectedInfo()">수집정보</a></li>
-                <li><a (click)="toMemberPolicy()">회원정책</a></li>
+                <li><a (click)="toSiteIntro()">{{'navbar.introduction'|translate}}</a></li>
+                <li><a (click)="toServiceGuide()">{{'navbar.guide'|translate}}</a></li>
+                <li><a (click)="toCollectedInfo()">{{'navbar.privacy'|translate}}</a></li>
+                <li><a (click)="toMemberPolicy()">{{'회원정책'|translate}}</a></li>
               </ul>
             </div>
             <!--tablet and mobile-->
             <div class="dropdown-container-tablet">
               <a
                 (click)="clickDropDownSiteInfo()"
-                class="dropdown-about">홈페이지소개</a>
+                class="dropdown-about">{{'navbar.aboutUs'|translate}}</a>
               <ul [ngClass]="isDropDownSiteInfo ? 'about-dropdown-menu-tablet' : 'about-dropdown-menu-tablet no'">
                 <li><a
                   [ngStyle]="selectedStyleObject(getSelectedSubMenu() === 'intro')"
-                  (click)="toSiteIntro()">사이트소개</a></li>
+                  (click)="toSiteIntro()">{{'navbar.introduction'|translate}}</a></li>
                 <li><a
                   [ngStyle]="selectedStyleObject(getSelectedSubMenu() === 'service-guide')"
-                  (click)="toServiceGuide()">서비스안내</a></li>
+                  (click)="toServiceGuide()">{{'navbar.guide'|translate}}</a></li>
                 <li><a
                   [ngStyle]="selectedStyleObject(getSelectedSubMenu() === 'collected-info')"
-                  (click)="toCollectedInfo()">수집정보</a></li>
+                  (click)="toCollectedInfo()">{{'navbar.infoPolicy'|translate}}</a></li>
                 <li><a
                   [ngStyle]="selectedStyleObject(getSelectedSubMenu() === 'member-policy')"
-                  (click)="toMemberPolicy()">회원정책</a></li>
+                  (click)="toMemberPolicy()">{{'회원정책'|translate}}</a></li>
               </ul>
             </div>
           </li>
-          
+
           <li
           [ngStyle]="selectedStyleObject(getSelectedMenu() === 'openapi')"
           class="openapi-menu"
@@ -94,36 +94,42 @@
 
         <ul *ngIf="!getIsSignedIn()" class="login-menu-tablet">
           <li [ngStyle]="selectedStyleObject(getSelectedMenu() === 'login')">
-            <a (click)="toLogin()">로그인</a>
+            <a (click)="toLogin()">{{'navbar.signIn'|translate}}</a>
           </li>
           <li [ngStyle]="selectedStyleObject(getSelectedMenu() === 'register')">
-            <a (click)="toRegister()">회원가입</a>
+            <a (click)="toRegister()">{{'navbar.register'|translate}}</a>
           </li>
+          <ul class="language_tablet">
+            <li><a [ngStyle]="disableObject(isMain)" (click)="useLanguage('ko')" class="word"><img src="../../../../assets/icons/kor_word.png"></a></li>
+            <li><a [ngStyle]="disableObject(isMain)" (click)="useLanguage('en')" class="word"><img src="../../../../assets/icons/eng_word.png"></a></li>
+          </ul>
         </ul>
 
         <ul *ngIf="getIsSignedIn()" class="user-menu-tablet">
           <li [ngStyle]="selectedStyleObject(getSelectedMenu() === 'userpage')">
             <a (click)="clickDropDownUserpage()"
-               class="dropdown-userpage">마이페이지</a>
+               class="dropdown-userpage">{{'마이페이지'|translate}}</a>
+<!--            {{'navbar.myPage' | translate}}-->
             <ul [ngClass]="isDropDownUserpage ? 'about-dropdown-menu-tablet' : 'about-dropdown-menu-tablet no'">
               <li><a
                 [ngStyle]="selectedStyleObject(getSelectedSubMenu() === 'my-docs')"
-                (click)="toMyDocs()">내 보관함</a></li>
+                (click)="toMyDocs()">{{'navbar.myDocuments' | translate}}</a></li>
               <li><a
                 [ngStyle]="selectedStyleObject(getSelectedSubMenu() === 'my-analysis')"
-                (click)="toMyAnalysis()">내 분석함</a></li>
+                (click)="toMyAnalysis()">{{'navbar.myAnalysis'|translate}}</a></li>
               <li><a
                 [ngStyle]="selectedStyleObject(getSelectedSubMenu() === 'member-info')"
-                (click)="toMemberInfo()">회원정보관리</a></li>
-              <li><a
-                [ngStyle]="selectedStyleObject(getSelectedSubMenu() === 'api-register')"
-                (click)="toOpenAPI()">Open API</a></li>
+                (click)="toMemberInfo()">{{'navbar.privacy'|translate}}</a></li>
               <li><a
                 [ngStyle]="selectedStyleObject(getSelectedSubMenu() === 'secession')"
-                (click)="toSecession()">회원탈퇴</a></li>
+                (click)="toSecession()">{{'navbar.rmAccount'|translate}}</a></li>
             </ul>
           </li>
-          <li><a (click)="logOut()">로그아웃</a></li>
+          <li><a (click)="logOut()">{{'navbar.signOut'|translate}}</a></li>
+          <ul class="language_tablet">
+            <li><a [ngStyle]="disableObject(isMain)" (click)="useLanguage('ko')" class="word"><img src="../../../../assets/icons/kor_word.png"></a></li>
+            <li><a [ngStyle]="disableObject(isMain)" (click)="useLanguage('en')" class="word"><img src="../../../../assets/icons/eng_word.png"></a></li>
+          </ul>
         </ul>
 
       </nav>
@@ -135,18 +141,23 @@
   </div>
 
   <ul *ngIf="!getIsSignedIn()" class="login-menu">
+    <li><a [ngStyle]="disableObject(isMain)" (click)="useLanguage('ko')" class="word"><img src="../../../../assets/icons/kor_word.png"></a></li>
+    <li><a [ngStyle]="disableObject(isMain)" (click)="useLanguage('en')" class="word"><img src="../../../../assets/icons/eng_word.png"></a></li>
     <li [ngStyle]="selectedStyleObject(getSelectedMenu() === 'login')">
-      <a (click)="toLogin()">로그인</a>
+      <a (click)="toLogin()">{{'navbar.signIn'|translate}}</a>
     </li>
     <li [ngStyle]="selectedStyleObject(getSelectedMenu() === 'register')">
-      <a (click)="toRegister()">회원가입</a>
+      <a (click)="toRegister()">{{'navbar.register'|translate}}</a>
     </li>
   </ul>
 
   <ul *ngIf="getIsSignedIn()" class="user-menu">
+    <li><a [ngStyle]="disableObject(isMain)" (click)="useLanguage('ko')" class="word"><img src="../../../../assets/icons/kor_word.png"></a></li>
+    <li><a [ngStyle]="disableObject(isMain)" (click)="useLanguage('en')" class="word"><img src="../../../../assets/icons/eng_word.png"></a></li>
     <li [ngStyle]="selectedStyleObject(getSelectedMenu() === 'userpage')">
-      <a (click)="toUserPage()">마이페이지</a>
+<!--      {{'navbar.myPage' | translate}}-->
+      <a (click)="toUserPage()">{{'마이페이지'|translate}}</a>
     </li>
-    <li><a (click)="logOut()">로그아웃</a></li>
+    <li><a (click)="logOut()">{{'navbar.signOut'|translate}}</a></li>
   </ul>
 </header>

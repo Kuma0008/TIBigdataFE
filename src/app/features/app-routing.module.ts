@@ -56,7 +56,7 @@ const routes: Routes = [
       ),
   },
   {
-    path: "analysis",
+    path: "analysis-menu",
     canActivate: [AuthGuard],
     loadChildren: () =>
       import("./article-analysis/analysis.module").then(

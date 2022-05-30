@@ -30,10 +30,10 @@ export class UserpageHeaderComponent implements OnInit {
    * @param routename
    */
   convertRouteToKor(routename: string) {
-    if (routename === "my-docs") return "내 보관함";
-    if (routename === "my-analysis") return "내 분석함";
-    if (routename === "secession") return "회원 탈퇴"
-    if (routename === "member-info") return "회원 정보"
+    if (routename === "my-docs") return "myDocuments";
+    if (routename === "my-analysis") return "myAnalysis";
+    if (routename === "secession") return "rmAccount"
+    if (routename === "member-info") return "privacy"
   }
 
   public get currentMenu(): string {

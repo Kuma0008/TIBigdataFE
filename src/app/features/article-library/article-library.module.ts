@@ -5,9 +5,10 @@ import { ResearchStatusComponent } from "./components/research-status/research-s
 import { ArticleLibraryComponent } from "./components/article-library-root/article-library.component";
 import { ChartsModule } from "ng2-charts";
 import { SharedModule } from "src/app/shared/shared.module";
+import {TranslateModule} from '@ngx-translate/core';
 
 @NgModule({
   declarations: [ArticleLibraryComponent, ResearchStatusComponent],
-  imports: [CommonModule, ChartsModule, LibraryRoutingModule, SharedModule],
+  imports: [CommonModule, ChartsModule, LibraryRoutingModule, SharedModule, TranslateModule],
 })
 export class ArticleLibraryModule { }

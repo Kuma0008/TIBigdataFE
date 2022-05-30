@@ -1,7 +1,10 @@
 <div class="api-register-container">
   <div class="api-register">
     <img
+      (click)="gotoMain()"
+      *ngIf="!isMain"
       src="../../../../../assets/logos/logo_main.png"
+      style="cursor:pointer;"
       alt="kubic_logo"
       width="150px"
     />

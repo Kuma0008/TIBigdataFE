@@ -4,6 +4,10 @@ import { AuthenticationService } from "src/app/core/services/authentication-serv
 import { HttpClient } from "@angular/common/http";
 import { IpService } from "src/app/core/services/ip-service/ip.service";
 import {fromEvent, Observable, Subscription} from 'rxjs';
+import { AppComponent } from '../../../features/app.component';
+import { ArticleLibraryComponent } from '../../../features/article-library/components/article-library-root/article-library.component';
+import {SearchMode} from '../../enums/search-mode';
+import {ElasticsearchService} from '../../services/elasticsearch-service/elasticsearch.service';
 
 @Component({
   selector: "app-nav",
@@ -30,6 +34,9 @@ export class NavbarComponent implements OnInit {
     private httpClient: HttpClient,
     private ipService: IpService,
     private changeDetectorRef: ChangeDetectorRef,
+    private appcomponent: AppComponent,
+    private articleLibrary: ArticleLibraryComponent,
+    private elasticsearchService: ElasticsearchService,
   ) {
     // subscriber to get user infomation
     this.authService.getCurrentUserChange().subscribe((user) => {
@@ -47,7 +54,6 @@ export class NavbarComponent implements OnInit {
     this.mobileQuery = matchMedia('(max-width: 600px)');
     this._mobileQueryListener = () => changeDetectorRef.detectChanges();
     this.mobileQuery.addListener(this._mobileQueryListener);
-
   }
   ngOnInit(): void {
     this.selectedMenu = this.router.url.split("/")[1];
@@ -59,14 +65,6 @@ export class NavbarComponent implements OnInit {
         this.selectedSubMenu = event.url.split("/")[2];
       }
     });
-
-    // this.resizeObservable$ = fromEvent(window, 'resize')
-    // this.resizeSubscription$ = this.resizeObservable$.subscribe( evt => {
-    //   if(matchMedia("(max-width: 768px)").matches) {
-    //     console.log('hihi');
-    //   }
-    //   console.log('event: ', evt);
-    // });
 
     this.mobileQuery.removeListener(this._mobileQueryListener);
   }
@@ -98,10 +96,30 @@ export class NavbarComponent implements OnInit {
     }
   }
 
+  disableObject(flag: boolean): Object {
+    if(flag){
+      return {
+        "display" : "block"
+      }
+    }else{
+      return {
+        "display" : "none"
+      }
+    }
+  }
+
+  useLanguage(language: string): void {
+    if (language === 'en') {
+      this.appcomponent.toEnglish();
+    } else if (language === 'ko') {
+      this.appcomponent.toKorean();
+    }
+    this.articleLibrary.setArrayValues(language);
+  }
   selectMobileMenu(): void {
     this.isHamburger = !this.isHamburger;
   }
-
+//getters and setters
   public get isSelectMobileMenu(): boolean {
     return this.isHamburger;
   }
@@ -113,11 +131,16 @@ export class NavbarComponent implements OnInit {
 
   navigateSpecials(): void {
     this.isHamburger = false;
-    this.router.navigateByUrl("/analysis");
+    this.router.navigateByUrl("/analysis-menu");
   }
 
   navigateLibrary(): void {
     this.isHamburger = false;
+    this.elasticsearchService.setSearchMode(SearchMode.ALL);
+    this.elasticsearchService.setCurrentSearchingPage(1);
+    this.elasticsearchService.setFirstChar("");
+    this.elasticsearchService.setSelectedInst("");
+    this.elasticsearchService.setTopicHashKeys([]);
     this.router.navigateByUrl("/library");
   }
 
@@ -292,5 +315,14 @@ export class NavbarComponent implements OnInit {
     this.router.navigateByUrl("/userpage/secession");
   }
 
-}
+  public get isMain(): boolean {
+    let rootUrl = this.router.routerState.snapshot.url;
 
+    if(rootUrl.startsWith("/library") || rootUrl.startsWith("/analysis") || rootUrl.startsWith("/community") || rootUrl.startsWith("/about") || rootUrl.startsWith("/userpage") || rootUrl.startsWith("/search") || rootUrl.startsWith("/api") || rootUrl.startsWith("/login") || rootUrl.startsWith("/register") || rootUrl.startsWith("/openapi")){
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+}

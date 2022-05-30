@@ -50,10 +50,10 @@ private headers = new HttpHeaders().set("Content-Type", "application/json");
     return <ApiInfo> res.payload;
   }
   
-  async reissueKey(_id: string): Promise<{authKey:string}> {
+  async reissueKey(email:string, _id: string): Promise<{authKey:string}> {
     let res: {authKey:string} = await this.httpClient
       .post<any>(this.OpenAPI_URL +'/reissue', 
-        '_id='+_id,
+      'email='+email+'&_id='+_id,
         {'headers':{'Content-Type': 'application/x-www-form-urlencoded'}},
       )
       .toPromise();
@@ -61,10 +61,10 @@ private headers = new HttpHeaders().set("Content-Type", "application/json");
     return res;
   }
 
-  async register(email:string, app_name:string ,app_purpose: string): Promise<{authKey:string}>{
+  async register(email:string, app_type:string, app_name:string ,app_purpose: string): Promise<{authKey:string}>{
     let res: {authKey:string} = await this.httpClient
       .post<any>(this.OpenAPI_URL +'/register', 
-        'email='+email+'&app_name='+app_name+'&app_purpose='+app_purpose,
+        'email='+email+'&app_type='+app_type+'&app_name='+app_name+'&app_purpose='+app_purpose,
         {'headers':{'Content-Type': 'application/x-www-form-urlencoded'}},
       )
       .toPromise();

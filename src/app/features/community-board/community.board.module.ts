@@ -10,6 +10,7 @@ import { QnaComponent } from "./components/board-qna/board.qna.component";
 import { DocumentModifyComponent } from "./components/document-modify/document.modify.component";
 import { DocumentReadComponent } from "./components/document-read/document.read.component";
 import { DocumentWriteComponent } from "./components/document-write/document.write.component";
+import {TranslateModule} from '@ngx-translate/core';
 
 @NgModule({
   declarations: [
@@ -21,11 +22,12 @@ import { DocumentWriteComponent } from "./components/document-write/document.wri
     DocumentModifyComponent,
     CommunityBoardComponent
   ],
-  imports: [
-    CommonModule,
-    CommunityRoutingModule,
-    ReactiveFormsModule,
-    SharedModule,
-  ],
+    imports: [
+        CommonModule,
+        CommunityRoutingModule,
+        ReactiveFormsModule,
+        SharedModule,
+        TranslateModule,
+    ],
 })
 export class CommunityBoardModule { }

@@ -6,19 +6,19 @@
         [ngStyle]="selectedStyleObject(currentMenu == 'manual')"
         class="menu-item"
         id="manual">
-        <a (click)="toManual()">매뉴얼</a>
+        <a (click)="toManual()">{{'analysis.manual.manual'|translate}}</a>
       </li>
       <li
         [ngStyle]="selectedStyleObject(currentMenu == 'preprocessing')"
         class="menu-item"
         id="preprocessing">
-        <a (click)="toPreprocessing()">전처리</a>
+        <a (click)="toPreprocessing()">{{'analysis.preprocessing.preprocessing'|translate}}</a>
       </li>
       <li
         [ngStyle]="selectedStyleObject(currentMenu == 'analysis')"
         class="menu-item"
         id="analysis">
-        <a (click)="toAnalysis()">분석</a>
+        <a (click)="toAnalysis()">{{'navbar.analysis'|translate}}</a>
       </li>
     </ul>
   </div>

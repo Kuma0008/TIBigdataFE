@@ -1,15 +1,17 @@
-import { Component, OnDestroy, OnInit } from "@angular/core";
-import { FormArray, FormBuilder, FormControl, FormGroup } from "@angular/forms";
-import { Router } from "@angular/router";
-import { Observable, Subscription } from "rxjs";
-import { ArticleSource } from "src/app/core/models/article.model";
-import { PaginationModel } from "src/app/core/models/pagination.model";
-import { AnalysisDatabaseService } from "src/app/core/services/analysis-database-service/analysis.database.service";
-import { ArticleService } from "src/app/core/services/article-service/article.service";
-import { AuthenticationService } from "src/app/core/services/authentication-service/authentication.service";
-import { ElasticsearchService } from "src/app/core/services/elasticsearch-service/elasticsearch.service";
-import { PaginationService } from "src/app/core/services/pagination-service/pagination.service";
-import { UserSavedDocumentService } from "src/app/core/services/user-saved-document-service/user-saved-document.service";
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {FormArray, FormBuilder, FormControl, FormGroup} from '@angular/forms';
+import {Router} from '@angular/router';
+import {Observable, Subscription} from 'rxjs';
+import {ArticleSource} from 'src/app/core/models/article.model';
+import {PaginationModel} from 'src/app/core/models/pagination.model';
+import {AnalysisDatabaseService} from 'src/app/core/services/analysis-database-service/analysis.database.service';
+import {ArticleService} from 'src/app/core/services/article-service/article.service';
+import {AuthenticationService} from 'src/app/core/services/authentication-service/authentication.service';
+import {ElasticsearchService} from 'src/app/core/services/elasticsearch-service/elasticsearch.service';
+import {PaginationService} from 'src/app/core/services/pagination-service/pagination.service';
+import {UserSavedDocumentService} from 'src/app/core/services/user-saved-document-service/user-saved-document.service';
+import {SearchMode} from '../../../core/enums/search-mode';
+import {SortOption} from '../../../core/enums/serch-result-sort-option';
 
 @Component({
   selector: "app-article-list",
@@ -17,7 +19,7 @@ import { UserSavedDocumentService } from "src/app/core/services/user-saved-docum
   styleUrls: ["./article-list.component.less"],
 })
 export class ArticleListComponent implements OnInit, OnDestroy {
-  public orders = ["최신순", "과거순"];
+  public orders = ["정확도순", "최신순", "과거순"];
   public amounts = [10, 30, 50];
   private _form: FormGroup;
 
@@ -43,6 +45,8 @@ export class ArticleListComponent implements OnInit, OnDestroy {
   private _totalPages: number = 1;
   private _totalDocs: number;
   private _pageSize: number = 10;
+  private _searchPaperResultNum: string = "0";
+  private _searchNewsResultNum: string = "0";
 
   private _checkArray: FormArray = null;
   private _toggle_all : boolean = false;
@@ -64,12 +68,9 @@ export class ArticleListComponent implements OnInit, OnDestroy {
       this.resetSearchOptions();
       this.setArticleHashKeyList();
       this.setCheckbox();
-
       this.isResultFound = (articles !== null);
       this.elasticsearchService.setSearchStatus(true);
-
     });
-
     // Check if it is still searching
     this.searchStatusChange$.subscribe((status) => {
       this.isSearchDone = status;
@@ -166,6 +167,19 @@ export class ArticleListComponent implements OnInit, OnDestroy {
       this.pageSize
     );
     this.setPageInfo(pageInfo);
+
+    this.searchPaperResultNum = "0";
+    this.searchNewsResultNum = "0";
+    let res = this.elasticsearchService.getDoctypeWithTextSearch();
+    res.then((count)=>{
+      for(let name of count["aggregations"]["count"]["buckets"]){
+        if(name.key === 'paper') {
+          this.searchPaperResultNum = name.doc_count;
+        }else if(name.key === 'news'){
+          this.searchNewsResultNum = name.doc_count;
+        }
+      }
+    })
   }
 
   /**
@@ -216,7 +230,7 @@ export class ArticleListComponent implements OnInit, OnDestroy {
    */
   openSelectedDoc(articleSourceIdx: number, RelatedDocIdx: number): void {
     this.articleService.setSelectedHashKey(
-      this.relatedDocs[articleSourceIdx][RelatedDocIdx]["hashKey"]
+      this.relatedDocs[articleSourceIdx][RelatedDocIdx]["id"]
     );
     this.navToDocDetail();
   }
@@ -234,11 +248,11 @@ export class ArticleListComponent implements OnInit, OnDestroy {
    * @description Load related articles of selected article.
    * @param idx Index number of article from relatedDocs.
    */
-  loadRelatedDocs(idx: number): void {
+  loadRelatedDocs(hashKey: number): void {
     this.analysisDatabaseService
-      .loadRelatedDocs(this.articleService.getHashKeyByIdx(idx))
+      .loadRelatedDocs(this.articleService.getHashKeyByIdx(hashKey))
       .then((res) => {
-        this.relatedDocs[idx] = res as [];
+        this.relatedDocs[hashKey] = res as [];
       });
   }
 
@@ -282,7 +296,7 @@ export class ArticleListComponent implements OnInit, OnDestroy {
         }
         j++;
       });
-    } 
+    }
 
     for (let i = 0; i < this.articleSources.length; i++) {
       this.articleSources[i]["isSelected"] = isCheckAll;
@@ -346,11 +360,48 @@ export class ArticleListComponent implements OnInit, OnDestroy {
         "background-image":
           "url(../../../../assets/icons/arrow-down_3d3d3d.png)",
       };
+    }else{
+      return {
+        "background-image":
+          "url(../../../../assets/icons/arrow-down_3d3d3d_2.png)",
+      };
     }
   }
 
   navToDocDetail(): void {
     this.router.navigateByUrl("search/read");
+  }
+
+  async searchByDoctype(e){
+    if(e.target.id === 'all'){
+      this.elasticsearchService.setDoctype("");
+    }else{
+      this.elasticsearchService.setDoctype(e.target.value);
+    }
+    this.elasticsearchService.setSearchMode(SearchMode.FILTER);
+    this.elasticsearchService.triggerSearch(1)
+  }
+
+  saveSortOption(ord: string){
+    switch (ord){
+      case '정확도순':
+        this.elasticsearchService.setSortOption(SortOption.SCORE);
+        break;
+      case '최신순':
+        this.elasticsearchService.setSortOption(SortOption.DATE_DESC);
+        break;
+      case '과거순':
+        this.elasticsearchService.setSortOption(SortOption.DATE_ASC);
+        break;
+    }
+    let rootUrl = this.router.routerState.snapshot.url;
+
+    if(rootUrl.startsWith('/library')){
+      this.elasticsearchService.setSearchMode(SearchMode.LIBRARY);
+    }else{
+      this.elasticsearchService.setSearchMode(SearchMode.FILTER);
+    }
+    this.elasticsearchService.triggerSearch(1);
   }
 
   // getters and setters
@@ -440,6 +491,19 @@ export class ArticleListComponent implements OnInit, OnDestroy {
   public set searchResultNum(value: string) {
     this._searchResultNum = value;
   }
+
+  public get searchPaperResultNum(): string {
+    return this._searchPaperResultNum;
+  }
+  public set searchPaperResultNum(value: string) {
+    this._searchPaperResultNum = value;
+  }
+  public get searchNewsResultNum(): string {
+    return this._searchNewsResultNum;
+  }
+  public set searchNewsResultNum(value: string) {
+    this._searchNewsResultNum = value;
+  }
   public get searchKeyword(): string {
     return this._searchKeyword;
   }
@@ -495,4 +559,8 @@ export class ArticleListComponent implements OnInit, OnDestroy {
   public set toggle_all(value: boolean) {
     this._toggle_all = value;
   }
+  public get selectedDoctype(): string {
+    return this.elasticsearchService.getDoctype();
+  }
+
 }

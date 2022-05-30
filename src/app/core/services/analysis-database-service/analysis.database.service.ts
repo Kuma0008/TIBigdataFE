@@ -35,20 +35,19 @@ export class AnalysisDatabaseService {
     let res = await this.http
       .post<any>(this.GET_ONE_TOPIC_DOCS_URL, body)
       .toPromise();
-
     return res;
   }
 
-  async getRelatedDocsTbl(ids: string | string[], num?: number, sim?: boolean) {
+  async getRelatedDocsTbl(hashKey: string | string[], num?: number, sim?: boolean) {
     let res : QueryResponse = await this.http
-      .post<any>(this.GET_RCMD_URL, { id: ids, num: num, sim: sim })
+      .post<any>(this.GET_RCMD_URL, { hashKey: hashKey, num: num, sim: sim })
       .toPromise();
     if (res.isSuccess) {
       return res.payload;
     }
   }
 
-  async getTfidfVal(ids: string | string[], num?: number, isVal?: boolean) {
+  async getCountVal(ids: string | string[], num?: number, isVal?: boolean) {
     return new Promise((resolve) => {
       this.http
         .post<any>(this.GET_KEYWORDS_URL, { id: ids, num: num, isVal: isVal })
@@ -58,8 +57,8 @@ export class AnalysisDatabaseService {
     });
   }
 
-  async loadRelatedDocs(id: string) {
-    let _rcmdIdsRes = await this.getRelatedDocsTbl(id);
+  async loadRelatedDocs(hashKey: string) {
+    let _rcmdIdsRes = await this.getRelatedDocsTbl(hashKey);
     let rcmdIds = _rcmdIdsRes[0]["rcmd"];
     let _titlesRes = await this.docControl.convertDocHashKeysToTitles(
       rcmdIds as string[]

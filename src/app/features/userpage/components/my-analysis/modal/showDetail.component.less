@@ -3,15 +3,14 @@ jw-modal {
 
     .jw-modal {
         /* modal container fixed across whole screen */
-        //position: fixed;
         position: fixed;
         top: 0;
         right: 0;
         bottom: 0;
-        left: 0;       
+        left: 0;
 
         /* z-index must be higher than .jw-modal-background */
-        z-index: 500;
+        z-index: 1000;
         
         /* enables scrolling for tall modals */
         overflow: auto;
@@ -22,22 +21,16 @@ jw-modal {
             //max-height : 90%;
 
             /* margin exposes part of the modal background */
+            //margin: 300px;
             margin: auto;
-            //margin-top: 5%;
             width: 70%;
-            min-width: 400px;
-            //position:relative;
-            //left:50%;
-            //margin-left:-450px;
-            //margin: 100px;
-            
+            min-width: 350px;
 
         }
     }
 
     .jw-modal-background {
         /* modal background fixed across whole screen */
-        //position: fixed;
         position: fixed;
         top: 0;
         right: 0;
@@ -49,8 +42,7 @@ jw-modal {
         opacity: 0.75;
         
         /* z-index must be below .jw-modal and above everything else  */
-        //z-index: 900;
-        z-index: 400;
+        z-index: 900;
     }
 }
 
@@ -70,17 +62,16 @@ table {
   
   th {
     // width: 100%;
-    height: 45px;
     padding    : 15px 0px;
     font-weight: 500;
     color: #fff;
     background: lightskyblue ;
   }
-   
+  
   td {
     // width: 100%;
     border-bottom : 1px solid lightgray;
-    height: 35px;
+    height        : 40px;
     vertical-align: middle;
   }
   
@@ -97,7 +88,6 @@ table {
   }
   
   .result-pretable{
-    height: auto;
-    max-height: 200px;
-    overflow: auto; 
+    height: 200px;
+    overflow:auto;
 }

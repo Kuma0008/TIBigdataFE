@@ -4,8 +4,8 @@ const Schema = mongoose.Schema;
 
 const topicSchema = new Schema({
   topic: String,
-  hashKey: String,
-  docTitle: String,
+  hash_key: String,
+  doc_title: String,
 });
 
 const conn = require("../connection/dataConn");
