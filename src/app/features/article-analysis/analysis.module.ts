@@ -9,6 +9,7 @@ import { AnalysisMenuComponent } from "./components/analysis-menu/analysis-menu.
 import { SharedModule } from "src/app/shared/shared.module";
 import { FileUploadModule } from 'ng2-file-upload';
 import { savedDocForAnalysis } from "./components/savedDocForAnalysis/savedDocForAnalysis.component";
+import {TranslateModule} from '@ngx-translate/core';
 
 @NgModule({
   declarations: [
@@ -18,6 +19,6 @@ import { savedDocForAnalysis } from "./components/savedDocForAnalysis/savedDocFo
     AnalysisMenuComponent,
     savedDocForAnalysis,
   ],
-  imports: [CommonModule, AnalysisRoutingModule, SharedModule, FileUploadModule],
+    imports: [CommonModule, AnalysisRoutingModule, SharedModule, FileUploadModule, TranslateModule],
 })
 export class AnalysisModule {}

@@ -88,6 +88,8 @@ export class AnalysisComponent extends abstractAnalysis implements OnInit  {
     this.analysisedData = res;
     this.isDataAnalysised = true;
     this.isDataPreview =false;
+
+    console.log(res);
     // let temp=[];
     // // let i=0;
     // for (let i=0;i< Object.keys(this.analysisedData).length;i++){
@@ -1056,6 +1058,8 @@ export class AnalysisComponent extends abstractAnalysis implements OnInit  {
       });
 
       this.middlewareService.postDataToFEDB('/textmining/uploadChart', data).then( res=>{});
+      console.log(this.analysisedData.analysisDate);
+      console.log(typeof(this.analysisedData.analysisDate));
     });
 
   }

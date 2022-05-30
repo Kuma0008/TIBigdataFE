@@ -1,5 +1,5 @@
 import { CommonModule } from "@angular/common";
-import { HttpClientModule } from "@angular/common/http";
+import { HttpClientModule, HttpClient } from "@angular/common/http";
 import { NgModule } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { BrowserModule } from "@angular/platform-browser";
@@ -20,7 +20,14 @@ import { MembershipModule } from "./memberships/membership.module";
 import { SearchResultModule } from "./search-result/search-result.module";
 import { UserpageModule } from "./userpage/userpage.module";
 import { OpenApiModule } from "./open-api/open-api.module";
+import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import {ArticleLibraryComponent} from './article-library/components/article-library-root/article-library.component';
 
+
+export function createTranslateLoader(http: HttpClient) {
+  return new TranslateHttpLoader(http, './assets/i18n/', '.json');
+}
 @NgModule({
   declarations: [AppComponent, HomePageComponent],
   imports: [
@@ -29,6 +36,14 @@ import { OpenApiModule } from "./open-api/open-api.module";
     HttpClientModule,
     FormsModule,
     BrowserModule,
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: (createTranslateLoader),
+        deps: [HttpClient]
+      },
+      defaultLanguage: 'ko'
+    }),
     CoreModule,
     SharedModule,
     SocialLoginModule,
@@ -41,7 +56,7 @@ import { OpenApiModule } from "./open-api/open-api.module";
     OpenApiModule,
   ],
   exports: [],
-  providers: [AuthGuard, AuthenticationService, TokenInterceptorService],
+  providers: [AuthGuard, AuthenticationService, TokenInterceptorService, ArticleLibraryComponent],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

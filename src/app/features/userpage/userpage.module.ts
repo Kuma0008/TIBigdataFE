@@ -10,6 +10,7 @@ import { UserpageSidebarComponent } from './components/userpage-sidebar/userpage
 import { UserpageHeaderComponent } from './components/userpage-header/userpage-header.component';
 import { ReactiveFormsModule } from "@angular/forms";
 import { ModalComponent } from "./components/my-analysis/modal/showDetail.component";
+import {TranslateModule} from '@ngx-translate/core';
 
 @NgModule({
   declarations: [
@@ -22,6 +23,6 @@ import { ModalComponent } from "./components/my-analysis/modal/showDetail.compon
     UserpageHeaderComponent,
     ModalComponent,
   ],
-  imports: [CommonModule, UserpageRoutingModule, ReactiveFormsModule ],
+  imports: [CommonModule, UserpageRoutingModule, ReactiveFormsModule, TranslateModule ],
 })
 export class UserpageModule { }

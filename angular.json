@@ -13,6 +13,13 @@
           "styleext": "less"
         }
       },
+      "i18n": {
+        "sourceLocale": "kr-KR",
+        "locales": {
+          "en": "src/locale/messages.en.xlf"
+
+      }
+    },
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
@@ -26,7 +33,9 @@
               "src/favicon.ico",
               "src/assets/logos",
               "src/assets/icons",
-              "src/assets/manual.pdf"
+              "src/assets/manual.pdf",
+              "src/assets/i18n",
+              "src/assets/User_Manual.html"
             ],
             "styles": [
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
@@ -39,6 +48,14 @@
             ]
           },
           "configurations": {
+            "en": {
+              "aot": true,
+              "outputPath": "dist/under-c-en/",
+              "i18nFile": "src/locale/messages.en.xlf",
+              "i18nFormat": "xlf",
+              "i18nLocale": "en",
+              "i18nMissingTranslation": "error"
+            },
             "production": {
               "fileReplacements": [
                 {
@@ -74,6 +91,9 @@
           "configurations": {
             "production": {
               "browserTarget": "KUBiC:build:production"
+            },
+            "en": {
+              "browserTarget": "KUBiC:build:en"
             }
           }
         },
@@ -93,10 +113,12 @@
             "styles": ["src/styles.less"],
             "scripts": [],
             "assets": [
+              "src/assets",
               "src/favicon.ico",
               "src/assets/logos",
               "src/assets/icons",
-              "src/assets/manual.pdf"
+              "src/assets/manual.pdf",
+              "src/assets/i18n"
             ]
           }
         },

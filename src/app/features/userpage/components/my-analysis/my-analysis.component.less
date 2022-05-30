@@ -68,7 +68,7 @@ input[type="checkbox"] {
 
 .outline {
   border       : 1px solid #606060;
-  border-radius: 50px;
+  border-radius: 20px;
   width        : 100%;
   padding      : 40px 10%;
 }
@@ -138,7 +138,8 @@ input[type="checkbox"] {
 
 .thumbnail{
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  //grid-template-columns: repeat(2, 1fr);
   grid-gap: 10px;
   grid-auto-rows: minmax(340px, auto);
   //height : minmax(auto, 800px);
@@ -204,6 +205,12 @@ input[type="checkbox"] {
   width        : 100%;  
   text-align: center;
 }
+
+.tooltip{
+  width: 2.0rem;
+  padding-left: 3px;
+}
+
 @media all and (max-width: 768px){
   .upside3>button{
     font-size : 13px;

@@ -5,6 +5,7 @@ import { ArticleCardViewComponent } from "./component/article-card-preview/artic
 import { ArticleListComponent } from "./component/article-list/article-list.component";
 import { RouteLocationComponent } from "./component/route-location/route-location.component";
 import { SearchBarComponent } from "./component/search-bar/search-bar.component";
+import {TranslateModule} from '@ngx-translate/core';
 
 @NgModule({
   declarations: [
@@ -13,7 +14,7 @@ import { SearchBarComponent } from "./component/search-bar/search-bar.component"
     SearchBarComponent,
     RouteLocationComponent,
   ],
-  imports: [CommonModule, ReactiveFormsModule, FormsModule],
+    imports: [CommonModule, ReactiveFormsModule, FormsModule, TranslateModule],
   exports: [
     SearchBarComponent,
     ArticleListComponent,

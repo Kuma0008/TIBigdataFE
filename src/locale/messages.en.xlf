@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+  <file source-language="kr-KR" datatype="plaintext" original="ng2.template">
+    <body>
+      <trans-unit id="terms" datatype="html">
+        <source>이용약관</source>
+        <target>Terms and Conditions</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/components/footer/footer.component.html</context>
+          <context context-type="linenumber">10</context>
+        </context-group>
+        <note priority="1" from="description">temps and conditions</note>
+        <note priority="1" from="meaning">terms</note>
+      </trans-unit>
+      <trans-unit id="policy" datatype="html">
+        <source>개인정보처리방침</source>
+        <target>Personal Information Policies</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/components/footer/footer.component.html</context>
+          <context context-type="linenumber">11</context>
+        </context-group>
+        <note priority="1" from="description">personal information policies</note>
+        <note priority="1" from="meaning">policy</note>
+      </trans-unit>
+      <trans-unit id="emailDeny" datatype="html">
+        <source>이메일무단수집거부</source>
+        <target>Email Information Collection Reject</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/components/footer/footer.component.html</context>
+          <context context-type="linenumber">12</context>
+        </context-group>
+        <note priority="1" from="description">email information collection denial</note>
+        <note priority="1" from="meaning">email Deny</note>
+      </trans-unit>
+      <trans-unit id="citeMap" datatype="html">
+        <source>사이트맵</source>
+        <target>Cite Map</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/components/footer/footer.component.html</context>
+          <context context-type="linenumber">13</context>
+        </context-group>
+        <note priority="1" from="description">cite map</note>
+        <note priority="1" from="meaning">cite map</note>
+      </trans-unit>
+      <trans-unit id="hguAdress" datatype="html">
+        <source>경상북도 포항시 북구 흥해읍 한동로 558</source>
+        <target>Kyungsang Buk Do</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/components/footer/footer.component.html</context>
+          <context context-type="linenumber">19</context>
+        </context-group>
+        <note priority="1" from="description">handong univ address</note>
+        <note priority="1" from="meaning">hgu address</note>
+      </trans-unit>
+      <trans-unit id="673fbc051e1d91b4073d2a9646c522c0ba8922d6" datatype="html">
+        <source>자료열람</source>
+        <target>Library</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/core/components/navbar/navbar.component.html</context>
+          <context context-type="linenumber">12</context>
+        </context-group>
+        <note priority="1" from="description">library</note>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

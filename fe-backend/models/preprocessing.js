@@ -13,7 +13,8 @@ const preprocessingModel = new Schema({
   savedDate: String,
   processedData: Date,
   nTokens: Number,
-  tokenList: [[String]],
+  //tokenList: [[String]],
+  tokenList : Array,
   titleList: [String],
 },{collection: 'preprocessing'});
 
