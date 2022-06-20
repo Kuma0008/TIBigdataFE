@@ -73,6 +73,11 @@
     background-color: #3d3d3d;
   }
 
+  .wordcloud{
+    //padding : 20px !important;
+    //margin : 0px !important;
+  }
+
 }
 
 @media all and (max-width: 425px) {
@@ -195,11 +200,12 @@ hr {
 }
 
 .wordcloud {
+  height: 60vh;
   display        : flex;
   justify-content: center;
   border         : 0.5px solid lightgray;
   border-radius  : 15px;
-  padding        : 50px;
+  font-size : 10px;
 }
 
 .detail-body.empty-data>h1{
@@ -208,90 +214,4 @@ hr {
   margin-bottom: 0.5em;
   margin-top   : 2em;
   float : left;
-}
-
-/* font sizes */
-::ng-deep angular-tag-cloud.custom-css span.w10 {
-  font-size: 380%;
-}
-
-::ng-deep angular-tag-cloud.custom-css span.w9 {
-  font-size: 330%;
-}
-
-::ng-deep angular-tag-cloud.custom-css span.w8 {
-  font-size: 280%;
-}
-
-::ng-deep angular-tag-cloud.custom-css span.w7 {
-  font-size: 240%;
-}
-
-::ng-deep angular-tag-cloud.custom-css span.w6 {
-  font-size: 210%;
-}
-
-::ng-deep angular-tag-cloud.custom-css span.w5 {
-  font-size: 180%;
-}
-
-::ng-deep angular-tag-cloud.custom-css span.w4 {
-  font-size: 160%;
-}
-
-::ng-deep angular-tag-cloud.custom-css span.w3 {
-  font-size: 140%;
-}
-
-::ng-deep angular-tag-cloud.custom-css span.w2 {
-  font-size: 120%;
-}
-
-::ng-deep angular-tag-cloud.custom-css span.w1 {
-  font-size: 100%;
-}
-
-::ng-deep angular-tag-cloud.custom-css .tooltiptext {
-  font-size: 12px;
-}
-
-/* colors */
-angular-tag-cloud span.w10 {
-  color: #1679ed;
-}
-
-::ng-deep angular-tag-cloud.custom-css span.w9 {
-  color: #fff;
-}
-
-::ng-deep angular-tag-cloud.custom-css span.w8 {
-  color: rgb(255, 0, 195);
-}
-
-::ng-deep angular-tag-cloud.custom-css span.w7 {
-  color: rgb(36, 154, 116);
-}
-
-::ng-deep angular-tag-cloud.custom-css span.w6 {
-  color: #e8f090;
-}
-
-::ng-deep angular-tag-cloud.custom-css span.w5 {
-  color: #c3dd90;
-}
-
-::ng-deep angular-tag-cloud.custom-css span.w4 {
-  color: #f09090;
-}
-
-::ng-deep angular-tag-cloud.custom-css span.w3 {
-  color: #f2ea10;
-}
-
-::ng-deep angular-tag-cloud.custom-css span.w2 {
-  color: #ee99e7;
-}
-
-::ng-deep angular-tag-cloud.custom-css span.w1 {
-  color: #18cb42;
 }

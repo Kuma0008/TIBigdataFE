@@ -27,6 +27,7 @@ export class ArticleLibraryComponent implements OnInit {
   private _totalSavedDocsNum: number;
   private _selectedTp: string;
   private _selectedDict: string;
+  private _selectedDoctype: string;
 
   private _toggleTopics: boolean[];
   private _institutionList: string[];
@@ -278,6 +279,37 @@ export class ArticleLibraryComponent implements OnInit {
   }
   public set selectedDict(value: string) {
     this._selectedDict = value;
+  }
+
+  async selectDoc(e) {
+    this.selectedDoctype = e.target.innerText.toString();
+
+    if(this.selectedDoctype === "전체"){
+      this.elasticsearchService.setDoctype("");
+    } else {
+      let doctype;
+      switch (this.selectedDoctype){
+        case '문서': {
+          doctype = 'paper'
+          break;
+        }
+        case '기사': {
+          doctype = 'news'
+          break;
+        }
+      }
+      this.elasticsearchService.setDoctype(doctype);
+    }
+    this.elasticsearchService.setSearchMode(SearchMode.LIBRARY);
+    this.elasticsearchService.triggerSearch(1);
+  }
+
+  public get selectedDoctype(): string {
+    return this._selectedDoctype;
+  }
+
+  public set selectedDoctype(value: string) {
+    this._selectedDoctype = value;
   }
 
   /**

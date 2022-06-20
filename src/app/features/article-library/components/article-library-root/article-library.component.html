@@ -7,9 +7,29 @@
 
     <hr class="hr"/>
 
+    <div class="selection-container doctype">
+      <p>{{'문서 종류'|translate}}</p>
+      <div class="selection-buttons">
+        <button
+          (click)="selectDoc($event)"
+          [ngStyle]="selectedStyleObject(selectedDoctype === '전체')"
+        >{{ '전체' }}</button>
+        <button
+          (click)="selectDoc($event)"
+          [ngStyle]="selectedStyleObject(selectedDoctype === '문서')"
+        >{{ '문서' }}</button>
+        <button
+          (click)="selectDoc($event)"
+          [ngStyle]="selectedStyleObject(selectedDoctype === '기사')"
+        >{{ '기사' }}</button>
+      </div>
+    </div>
+
+    <hr class="hr"/>
+
     <div class="selection-container topic-container">
       <p>{{'article-library.byTopic'|translate}}</p>
-      <div class="selection-buttons">
+      <div class="selection-buttons topic">
         <button
           *ngFor="let cat of categories; let i = index"
           [ngStyle]="selectedStyleObject(selectedTp === cat)"

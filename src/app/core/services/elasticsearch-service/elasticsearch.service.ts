@@ -786,6 +786,7 @@ export class ElasticsearchService {
         query: {
           bool: {
             must: [
+              this.getDoctypeQuery(),
               this.getHashKeyQuery(),
               this.getInstQuery(),
               this.getDictionaryQuery(),

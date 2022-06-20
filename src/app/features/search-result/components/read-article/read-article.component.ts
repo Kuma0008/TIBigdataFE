@@ -32,7 +32,7 @@ export class ReadArticle implements OnInit {
   }
 
   goToDoc(r) {
-    this.articleService.setSelectedHashKey(this.rcmdList[r]["hashKey"]);
+    this.articleService.setSelectedHashKey(this.rcmdList[r]["id"]);
     this.load_new_document();
   }
 
@@ -55,7 +55,6 @@ export class ReadArticle implements OnInit {
 
     await this.elasticsearchService.searchByHashKey().then((res) => {
       this.article = res["hits"]["hits"][0]["_source"];
-
       this.isDocInfoLoaded++;
     });
 
