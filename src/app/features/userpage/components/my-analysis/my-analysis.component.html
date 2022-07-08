@@ -46,7 +46,8 @@
         <span *ngIf="chart.option1">{{ 'userpage.option1.' + chart.activity | translate }} {{ chart.option1 }}<br></span>
         <span *ngIf="chart.option2">{{ 'userpage.option2.' + chart.activity | translate }} {{ chart.option2 }}<br></span>
         <span *ngIf="chart.option3">{{ 'userpage.option3.' + chart.activity | translate }} {{ chart.option3 }}<br></span>
-        <span>{{'userpage.analysisDate'|translate}}{{ chart.analysisDate | date:'YYYY-M-d HH:mm:ss'}}</span>
+        <!--<span>{{'userpage.analysisDate'|translate}}{{ chart.analysisDate | date:'YYYY-M-d HH:mm:ss'}}</span>-->
+        <span>{{ 'userpage.analysisDate'|translate}}{{ parsingDate(chart.analysisDate) | date:'YYYY-M-d HH:mm:ss'}}</span>
       </div>
     </button>
   </div>

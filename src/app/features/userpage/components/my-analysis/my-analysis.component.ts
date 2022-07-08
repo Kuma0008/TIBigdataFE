@@ -8,6 +8,7 @@ import { AnalysisComponent } from 'src/app/features/article-analysis/components/
 import { ModalService } from './modal/modal.service';
 import * as d3 from 'd3';
 import { CSVDownloadService } from 'src/app/core/services/csv-download-service/csv-download.service';
+import moment from 'fe-backend/node_modules/moment';
 
 @Component({
   selector: 'app-my-analysis',
@@ -94,6 +95,10 @@ export class MyAnalysisComponent extends AnalysisComponent implements OnInit {
       this.isSavedChartsLoaded = true;
     }
     
+    if(this.isSavedChartsEmpty){
+      alert("해당 분석함이 비어있습니다.");
+    }
+
     //checkbox 초기화
     for(let i in this.charts){
       this.charts[i]["isSelected"] = false;
@@ -104,68 +109,28 @@ export class MyAnalysisComponent extends AnalysisComponent implements OnInit {
    * @description Load a saved chart data from DB
    */
   async getChartData(chart: any) : Promise<any>{
-    let parsedDate = this.parsingDate(chart.analysisDate);
+    let parsedDate = moment(new Date(chart.analysisDate)).toISOString(true);
+    parsedDate = parsedDate.replace("T", " ");
+    parsedDate = parsedDate.replace("+09:00","Z")
     let data = JSON.stringify({
       'userEmail': chart.userEmail,
       'keyword': chart.keyword,
       'activity': chart.activity,             
-      'analysisDate' : parsedDate         
+      'analysisDate' : parsedDate          
     });
          
     let chartData = await this.middlewareService.postDataToFEDB('/textMining/getChartData', data);
     return chartData; 
   }
 
-  parsingDate(analysisDate: string){
+  // 현재 myAnalysis에 analysisDate UTC-09:00로 저장됨
+  // 임시방편
+  parsingDate(analysisDate : string) : Date {
     let date = new Date(analysisDate);
-    let year = date.getFullYear();
-    let result : string = year+"-";
-
-    let month = date.getMonth()+1;
-    if(month>9){
-      result += month + "-";
-    }else{
-      result += "0" + month + "-";
-    }
-
-    let dt = date.getDate();
-    if(dt>9){
-      result += dt + " ";
-    }else{
-      result += "0" + dt + " ";
-    }
-
-    let hor = date.getHours();
-    if(hor>9){
-      result += hor + ":";
-    }else{
-      result += "0" + hor + ":";
-    }
-
-    let min = date.getMinutes();
-    if(min>9){
-      result += min + ":";
-    }else{
-      result += "0" + min + ":";
-    }
-
-    let sec = date.getSeconds();
-    if(sec>9){
-      result += sec + ".";
-    }else{
-      result += "0" + sec + ".";
-    }
-
-    let ms = date.getUTCMilliseconds();
-    if(ms<10){
-      result += "00" + ms + "Z";
-    }else if(ms<100){
-      result += "0"+ ms + "Z";
-    }else{
-      result += ms + "Z";
-    }
-
-    return result;
+    let utc = date.getTime() + (date.getTimezoneOffset()*6*1000);
+    let TIME_DIFF = 9 * 60 * 60 * 1000;
+    let curr = new Date( utc + TIME_DIFF);
+    return curr;
   }
 
   //show detail
