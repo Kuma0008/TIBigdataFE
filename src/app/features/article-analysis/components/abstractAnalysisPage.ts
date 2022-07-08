@@ -66,7 +66,8 @@ export abstract class abstractAnalysis{
             'savedDate': selectedSavedDate,
           });
 
-        //this.LoadingWithMask();
+        this.LoadingWithMask();
+        document.getElementById("cancelbtn").addEventListener("click", this.closeLoadingWithMask);
 
         let result = await this.middlewareService.postDataToFEDB('/textmining/getPreprocessedData', data);
         let tokens = Object.values(result.tokenList);
@@ -120,7 +121,7 @@ export abstract class abstractAnalysis{
             'savedDate': selectedSavedDate,
           });
 
-        //this.LoadingWithMask();
+        this.LoadingWithMask();
 
         let result = await this.middlewareService.postDataToFEDB('/textmining/getPreprocessedData', data);
         let titles = Object.values(result.titleList);
@@ -185,6 +186,7 @@ export abstract class abstractAnalysis{
             data = dataArray['tokenList'];
             // console.log("runProcess",data);
         }
+
         figure.append("div").text('키워드:'+dataArray['keyword']);
         figure.append("div").text('전처리 날짜:'+dataArray['processedDate']);
         figure.append("div").text('토큰 개수:'+dataArray['nTokens']);
@@ -196,7 +198,11 @@ export abstract class abstractAnalysis{
         const th = table.append("tr")
         .style('padding','15px 0px')
         .style('font-weight','500')
-        .style('text-align','center');
+        .style('text-align','center')
+        ///////////////////////////////
+        .style('background', 'lightskyblue')
+        .style('color', '#fff')
+
 
         th.append('th').text('제목');
         th.append('th').text('전처리');
@@ -263,8 +269,8 @@ export abstract class abstractAnalysis{
         $('#loading').show();
 
         $('#mask').append("<button id='cancelbtn' style='position: absolute; margin: 0px auto;display: block;'>창닫기</button>");
-        // $('#cancelbtn').click()
-        // $(document).on("click", "#cancelbtn", this.closeLoadingWithMask());
+        //$('#cancelbtn').click()
+        //$(document).on("click", "#cancelbtn", this.closeLoadingWithMask());
     }
 
     /**
@@ -279,7 +285,6 @@ export abstract class abstractAnalysis{
      * @description clear the result table
      */
     clearResult(){
-        d3.selectAll('.result-pretable').remove();
         d3.selectAll('figure > *').remove();
     }
 
