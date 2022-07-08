@@ -4,10 +4,7 @@ const countChartSchema = new Schema({
   userEmail: String,
   keyword: String,
   savedDate: Date,
-  analysisDate: Date,
-  chartImg: String,
-  activity: String,
-  docId: Object
+  analysisDate: Date
 },{collection: 'ngrams'});
 
 const conn = require("../../connection/textMiningConn");
